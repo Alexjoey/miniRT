@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../inc/fdf.h"
 
 static t_fdf	*fdf_init(char *windowtitle)
 {
@@ -53,5 +53,5 @@ int	main(int argc, char **argv)
 		mlx_loop(obj->mlx);
 	}
 	else
-		ft_printf("wrong input, valid input should be: ./fdf FILENAME\n");
+		ft_printf("wrong input, valid input should be: ./miniRT scene\n");
 }
