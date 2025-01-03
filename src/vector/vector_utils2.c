@@ -27,6 +27,8 @@ t_vector	cross_product(t_vector a, t_vector b)
 	return (ret);
 }
 
+//use this if you only need to compare the length of 2 vectors
+//and dont need the length for other calculations
 float	length_vector_squared(t_vector a)
 {
 	return (a.x * a.x + a.y * a.y + a.z * a.z);
