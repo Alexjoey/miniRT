@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_drawline.c                                      :+:      :+:    :+:   */
+/*   interpol_color.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: amylle <alexm@live.be>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 13:40:43 by amylle            #+#    #+#             */
-/*   Updated: 2024/06/05 13:40:45 by amylle           ###   ########.fr       */
+/*   Created: 2025/01/04 00:15:33 by amylle            #+#    #+#             */
+/*   Updated: 2025/01/04 00:15:34 by amylle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
-
-int	scalc(int start, int end)
-{
-	if (start < end)
-		return (1);
-	else
-		return (-1);
-}
+#include "../inc/minirt.h"
 
 int	ft_lerp(int start, int end, double percent)
 {

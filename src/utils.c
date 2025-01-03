@@ -10,24 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../inc/minirt.h"
 
-void	ft_put_new_img(t_fdf *obj)
+void	ft_put_new_img(t_rt *obj)
 {
-	mlx_destroy_image(obj->mlx, obj->img);
-	obj->img = mlx_new_image(obj->mlx, WINDOWWIDTH, WINDOWHEIGHT);
-	mlx_clear_window(obj->mlx, obj->win);
-	mlx_put_image_to_window(obj->mlx, obj->win, obj->img, 0, 0);
-	ft_drawmap(obj);
+	mlx_destroy_image(obj->mlx.mlx, obj->mlx.img);
+	obj->mlx.img = mlx_new_image(obj->mlx.mlx, WINDOWWIDTH, WINDOWHEIGHT);
+	mlx_clear_window(obj->mlx.mlx, obj->mlx.win);
+	mlx_put_image_to_window(obj->mlx.mlx, obj->mlx.win, obj->mlx.img, 0, 0);
 }
 
-void	my_pixel_put(t_fdf *obj, int x, int y, int color)
+void	my_pixel_put(t_mlx *mlx, int x, int y, int color)
 {
 	char	*dst;
 
 	if (x < 0 || x > WINDOWWIDTH || y < 0 || y > WINDOWHEIGHT)
 		return ;
-	dst = obj->addr + (y * obj->line_len + x * (obj->bpp / 8));
+	dst = mlx->addr + (y * mlx->line_len + x * (mlx->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 

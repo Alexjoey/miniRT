@@ -52,7 +52,8 @@ t_vector	multiply_vector(t_vector a, float scalar)
 	return (ret);
 }
 
-//makes a normalized vector, a vector with same direction as a, but with len 1, will return error if a has length 0
+//makes a normalized vector, a vector with same direction as a, but with len 1
+//will return error if a has length 0
 t_vector	normalize_vector(t_vector a)
 {
 	float		length;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/fdf.h"
+#pragma once
 #include <math.h>
 
 typedef struct s_vector
