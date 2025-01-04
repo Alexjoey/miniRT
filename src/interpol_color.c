@@ -30,3 +30,15 @@ int	interpol_color(int scolor, int ecolor, double percent)
 	b = ft_lerp(scolor & 0xFF, ecolor & 0xFF, percent);
 	return ((r << 16) | (g << 8) | b);
 }
+
+int	rgb_to_int(int r, int g, int b)
+{
+	int	rt;
+	int	gt;
+	int	bt;
+
+	rt = (r << 16) & 0x00FF0000;
+	gt = (g << 8) & 0x0000FF00;
+	bt = b & 0x000000FF;
+	return (0xFF000000 | rt | gt | bt);
+}

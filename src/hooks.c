@@ -10,19 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../inc/minirt.h"
 #include <X11/keysym.h>
 
 int	ft_close_win(void *param)
 {
-	t_fdf	*obj;
+	t_rt	*obj;
 
-	obj = (t_fdf *) param;
-	mlx_destroy_window(obj->mlx, obj->win);
-	mlx_destroy_image(obj->mlx, obj->img);
-	mlx_destroy_display(obj->mlx);
-	free (obj->mlx);
-	free (obj);
+	obj = (t_rt *) param;
+	mlx_destroy_window(obj->mlx.mlx, obj->mlx.win);
+	mlx_destroy_image(obj->mlx.mlx, obj->mlx.img);
+	mlx_destroy_display(obj->mlx.mlx);
 	exit (0);
 }
 

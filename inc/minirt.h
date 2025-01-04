@@ -24,15 +24,17 @@
 
 typedef enum s_shape_type
 {
-	sphere
+	sphere,
+	plane,
+	cylinder
 }	t_shape_type;
 
-typedef struct s_point
+typedef struct s_color
 {
-	int	x;
-	int	y;
-	int	color;
-}		t_point;
+	int			r;
+	int			g;
+	int			b;
+}				t_color;
 
 typedef struct s_camera
 {
@@ -40,7 +42,23 @@ typedef struct s_camera
 	t_vector	pos;
 	t_vector	direction;
 	size_t		fov;
-}		t_camera;
+}				t_camera;
+
+//ambient light struct
+typedef struct s_ambient
+{
+	bool		initialized;
+	float		ratio;
+	t_color		color;
+}				t_ambient;
+
+typedef struct s_light
+{
+	bool		initialized;
+	t_vector	pos;
+	float		brightness;
+	t_color		color;
+}				t_light;
 
 typedef struct s_sphere
 {
@@ -49,15 +67,36 @@ typedef struct s_sphere
 	int			color;
 }				t_sphere;
 
+//direction here is the normalized normal vector of the plane
+//which means its perpendicular to the plane with len 1
+typedef struct s_plane
+{
+	t_vector	pos;
+	t_vector	direction;
+	t_color		color;
+}				t_plane;
+
+typedef struct s_cylinder
+{
+	t_vector	pos;
+	t_vector	normal;
+	float		diameter;
+	float		height;
+	t_color		color;
+}				t_cylinder;
+
 typedef union s_shape_union
 {
 	t_sphere	sphere;
+	t_plane		plane;
+	t_cylinder	cylinder;
 }	t_shape_union;
 
 typedef	struct s_shape
 {
-	t_shape_type 	type;
+	t_shape_type	type;
 	t_shape_union	shape;
+	struct s_shape	*next;
 }					t_shape;
 
 typedef struct s_mlx
@@ -73,14 +112,16 @@ typedef struct s_mlx
 
 typedef struct s_rt
 {
-	t_mlx		mlx;
-	t_camera	camera;
-}				t_rt;
+	t_mlx			mlx;
+	t_camera		camera;
+	t_ambient		ambient;
+	t_light			light;
+	t_shape			*shapes;
+}					t_rt;
 
 void	ft_error(char *str);
 void	my_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	ft_freestrarray(char **strarray);
-t_point	project(int x, int y, t_rt *obj);
 int		ft_atoi_base(char *num, char *base);
 int		ft_atoi_base(char *num, char *base);
 void	ft_put_new_img(t_rt *obj);
@@ -89,5 +130,6 @@ int		ft_close_win(void *param);
 
 int	ft_lerp(int start, int end, double percent);
 int	interpol_color(int scolor, int ecolor, double percent);
+int	rgb_to_int(int r, int g, int b);
 
 #endif 
