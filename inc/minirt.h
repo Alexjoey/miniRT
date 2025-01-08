@@ -19,6 +19,7 @@
 # include <math.h>
 # include "../src/vector/vector.h"
 # include <stdbool.h>
+# include <stdio.h>
 # define WINDOWWIDTH 1920
 # define WINDOWHEIGHT 1080
 
@@ -119,7 +120,9 @@ typedef struct s_rt
 	t_shape			*shapes;
 }					t_rt;
 
-void	ft_error(char *str);
+int	parse_file(t_rt	*obj, char *filename);
+
+int		ft_error(char *str, char *filename);
 void	my_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	ft_freestrarray(char **strarray);
 int		ft_atoi_base(char *num, char *base);

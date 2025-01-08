@@ -23,7 +23,7 @@ int	ft_close_win(void *param)
 	mlx_destroy_display(obj->mlx.mlx);
 	exit (0);
 }
-
+/*
 static void	ft_adjust_offset(int x, int y, void	*param)
 {
 	t_fdf	*obj;
@@ -62,11 +62,11 @@ static void	ft_adjust_angle(int keycode, void *param)
 		obj->z_angle += -0.1;
 	ft_put_new_img(obj);
 }
-
+*/
 int	ft_keypress(int keycode, void *param)
 {
 	if (keycode == XK_Escape)
-		ft_close_win(param);
+		ft_close_win(param);/*
 	if (keycode == XK_Left)
 		ft_adjust_offset(-10, 0, param);
 	if (keycode == XK_Right)
@@ -81,6 +81,6 @@ int	ft_keypress(int keycode, void *param)
 		ft_adjust_zoom(0.5, param);
 	if (keycode == 'h' || keycode == 'j' || keycode == 'k'\
 		|| keycode == 'l' || keycode == 'u' || keycode == 'd')
-		ft_adjust_angle(keycode, param);
+		ft_adjust_angle(keycode, param);*/
 	return (0);
 }

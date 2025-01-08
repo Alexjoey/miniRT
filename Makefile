@@ -14,7 +14,8 @@ SRC_DIR	= ./src
 INC_DIR	= ./inc
 OBJ_DIR	= ./obj
 
-SRC	= ./src/main.c ./src/error.c ./src/map_parser.c ./src/hooks.c ./src/ft_drawmap.c ./src/ft_project.c ./src/ft_drawline.c ./src/utils.c
+SRC	= ./src/main.c ./src/error.c ./src/hooks.c ./src/utils.c ./src/vector/vectortests.c ./src/vector/vector_utils1.c ./src/vector/vector_utils2.c \
+	  ./src/parser/parser.c
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 CC		= cc
 CFLAGS	= -Wextra -Wall -Werror -g

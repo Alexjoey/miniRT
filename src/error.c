@@ -12,10 +12,11 @@
 
 #include "../inc/minirt.h"
 
-void	ft_error(char *str)
+int	ft_error(char *str, char *filename)
 {
-	ft_putendl_fd(str, 1);
-	exit (-1);
+	ft_putstr_fd(str, 1);
+	ft_putendl_fd(filename, 1);
+	return (false);
 }
 
 void	ft_freestrarray(char **strarray)
