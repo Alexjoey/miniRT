@@ -42,7 +42,7 @@ typedef struct s_camera
 	bool		initialized;
 	t_vector	pos;
 	t_vector	direction;
-	size_t		fov;
+	int			fov;
 }				t_camera;
 
 //ambient light struct

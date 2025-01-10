@@ -14,10 +14,6 @@
 
 static void	minirt_init(t_rt *obj, char *windowtitle)
 {
-	int		fd;
-
-	fd = open(windowtitle, O_RDONLY);
-	ft_bzero(obj, sizeof(*obj));
 	obj->mlx.mlx = mlx_init();
 	obj->mlx.win = mlx_new_window(obj->mlx.mlx, WINDOWWIDTH, WINDOWHEIGHT, \
 							   windowtitle);
@@ -35,6 +31,7 @@ int	main(int argc, char **argv)
 		ft_printf("wrong input, valid input should be: ./miniRT scene\n");
 		return (1);
 	}
+	ft_bzero(&obj, sizeof(obj));
 	if (!parse_file(&obj, argv[1]))
 		return (-1);
 	minirt_init(&obj, argv[1]);

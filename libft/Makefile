@@ -6,7 +6,7 @@
 #    By: amylle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/14 14:54:05 by amylle            #+#    #+#              #
-#    Updated: 2024/05/10 14:57:09 by amylle           ###   ########.fr        #
+#    Updated: 2025/01/10 17:45:01 by amylle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIBFT_SRCS	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
 			   	ft_putnbr_fd.c ft_split.c ft_lstnew.c ft_lstadd_front.c\
 			   	ft_lstsize.c ft_lstadd_back.c ft_lstlast.c ft_lstdelone.c\
 			   	ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_atol.c ft_abs.c ft_min.c\
-				ft_array.c
+				ft_array.c ft_atof.c
 
 PRINTF_DIR	= $(SRC_DIR)/printf
 

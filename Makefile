@@ -64,4 +64,7 @@ fclean:
 				@make fclean -C ./libft
 				@make clean -C ./mlx
 
+test:		$(NAME)
+				./$(NAME) test.rt
+
 re:			fclean all

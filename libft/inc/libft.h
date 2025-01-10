@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:33:41 by amylle            #+#    #+#             */
-/*   Updated: 2024/05/10 14:46:17 by amylle           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:44:42 by amylle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_list			*ft_lstmap(t_list *l, void *(*f)(void *), void (*d)(void *));
 int				ft_atoi(const char *nptr);
 char			*ft_itoa(int n);
 long			ft_atol(const char *nptr);
+float			ft_atof(const char	*str);
 
 char			*get_next_line(int fd);
 char			*gnl_nobuffer(int fd);
@@ -91,4 +92,5 @@ int				ft_min(int a, int b);
 
 void			ft_freearray(char **array);
 char			**ft_duparray(char **array);
+int				ft_arrlen(char	**array);
 #endif
