@@ -1,3 +1,4 @@
 *.o
+.cache
 miniRT
 compile_commands.json
