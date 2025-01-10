@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 //could maybe add some checking to check if theyre giving in valid int/floats
+//need to test for only newlines maybe
 #include "../../inc/minirt.h"
 
 //removes tabs and ending whitespace
@@ -198,8 +199,12 @@ int	parse_file(t_rt	*obj, char *filename)
 			break ;
 		line = remove_whitespace(line);
 		if (!parse_line(obj, line))
+		{
+			free (line);
 			return (false);
+		}
 		free (line);
 	}
+	close(fd);
 	return (true);
 }
