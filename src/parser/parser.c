@@ -45,7 +45,8 @@ int	parse_ratio(char *str, float	*ra)
 
 int	is_valid_color(const t_color *col)
 {
-	if (col->r >= 0 && col->r <= 255 && col->g >= 0 && col->g <= 255 && col->b >= 0 && col->b <= 255)
+	if (col->r >= 0 && col->r <= 255 && col->g >= 0 && \
+		col->g <= 255 && col->b >= 0 && col->b <= 255)
 		return (true);
 	return (false);
 }
@@ -201,6 +202,7 @@ int	parse_sphere(t_rt *obj, char *line)
 		ft_freearray(args);
 		return (false);
 	}
+	ft_freearray(args);
 	if (obj->shapes == NULL)
 		obj->shapes = shape;
 	else
@@ -210,7 +212,6 @@ int	parse_sphere(t_rt *obj, char *line)
 			ptr = ptr->next;
 		ptr->next = shape;
 	}
-	ft_freearray(args);
 	return (true);
 }
 
@@ -230,6 +231,7 @@ int	parse_line(t_rt *obj, char	*line)
 		return (parse_cylinder(obj, line));*/
 	return (false);
 }
+
 int	parse_file(t_rt	*obj, char *filename)
 {
 	int		fd;
