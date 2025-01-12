@@ -65,7 +65,7 @@ typedef struct s_sphere
 {
 	t_vector	pos;
 	float		diameter;
-	int			color;
+	t_color			color;
 }				t_sphere;
 
 //direction here is the normalized normal vector of the plane

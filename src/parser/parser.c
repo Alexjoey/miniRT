@@ -106,7 +106,8 @@ int	parse_ambient(t_rt *obj, char *line)
 		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for ambient: ", line));
 	}
-	if (!parse_ratio(args[1], &obj->ambient.ratio) || !parse_color(args[2], &obj->ambient.color))
+	if (!parse_ratio(args[1], &obj->ambient.ratio) || \
+		!parse_color(args[2], &obj->ambient.color))
 	{
 		ft_freearray(args);
 		return (false);
@@ -165,6 +166,53 @@ int	parse_light(t_rt *obj, char *line)
 	return (true);
 }
 
+//diameter can be smaller than 0 rn, idk if i care
+int	parse_sphere_args(t_shape *shape, char **args)
+{
+	if (!parse_vector(args[1], &shape->shape.sphere.pos))
+		return (false);
+	shape->shape.sphere.diameter = ft_atof(args[2]);
+	if (!parse_color(args[3], &shape->shape.sphere.color))
+		return (false);
+	return (true);
+}
+
+//just make an addlast function to make this shit work
+int	parse_sphere(t_rt *obj, char *line)
+{
+	char		**args;
+	t_shape		*shape;
+	t_shape		*ptr;
+
+	args = ft_split(line, ' ');
+	if (ft_arrlen(args) != 4)
+	{
+		ft_freearray(args);
+		return (ft_error("wrong amount of arguments for sphere: ", line));
+	}
+	shape = ft_calloc(sizeof(*shape), 1);
+	if (!shape)
+	{
+		ft_freearray(args);
+		return (ft_error("calloc error making a shape", NULL));
+	}
+	if (!parse_sphere_args(shape, args))
+	{
+		ft_freearray(args);
+		return (false);
+	}
+	if (obj->shapes == NULL)
+		obj->shapes = shape;
+	else
+	{
+		ptr = obj->shapes;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = shape;
+	}
+	ft_freearray(args);
+	return (true);
+}
 
 int	parse_line(t_rt *obj, char	*line)
 {
@@ -173,9 +221,9 @@ int	parse_line(t_rt *obj, char	*line)
 	if (!ft_strncmp("C", line, 1))
 		return (parse_camera(obj, line));
 	if (!ft_strncmp("L", line, 1))
-		return (parse_light(obj, line));/*
+		return (parse_light(obj, line));
 	if (!ft_strncmp("sp", line, 1))
-		return (parse_sphere(obj, line));
+		return (parse_sphere(obj, line));/*
 	if (!ft_strncmp("pl", line, 1))
 		return (parse_plane(obj, line));
 	if (!ft_strncmp("cy", line, 1))
