@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	}
 	ft_bzero(&obj, sizeof(obj));
 	if (!parse_file(&obj, argv[1]))
-		return (-1);
+		return (2);
 	minirt_init(&obj, argv[1]);
 	mlx_hook(obj.mlx.win, 17, 0, ft_close_win, &obj);
 	mlx_hook(obj.mlx.win, 2, 1L << 0, ft_keypress, &obj);

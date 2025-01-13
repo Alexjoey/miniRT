@@ -305,6 +305,8 @@ int	parse_cylinder(t_rt *obj, char *line)
 
 int	parse_line(t_rt *obj, char	*line)
 {
+	if (!line || !line[0])
+		return (true);
 	if (!ft_strncmp("A", line, 1))
 		return (parse_ambient(obj, line));
 	if (!ft_strncmp("C", line, 1))
