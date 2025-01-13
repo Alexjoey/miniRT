@@ -239,7 +239,6 @@ int	parse_plane(t_rt *obj, char *line)
 {
 	char		**args;
 	t_shape		*shape;
-	t_shape		*ptr;
 
 	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 4)
@@ -281,7 +280,6 @@ int	parse_cylinder(t_rt *obj, char *line)
 {
 	char		**args;
 	t_shape		*shape;
-	t_shape		*ptr;
 
 	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 5)
