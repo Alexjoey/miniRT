@@ -178,12 +178,29 @@ int	parse_sphere_args(t_shape *shape, char **args)
 	return (true);
 }
 
+void	shapeadd_back(t_shape	**root, t_shape *shape)
+{
+	t_shape	*ptr;
+
+	if (!root)
+	{
+		*root = shape;
+		return ;
+	}
+	else
+	{
+		ptr = *root;
+		while (ptr->next != NULL)
+			ptr = ptr->next;
+		ptr->next = shape;
+	}
+}
+
 //just make an addlast function to make this shit work
 int	parse_sphere(t_rt *obj, char *line)
 {
 	char		**args;
 	t_shape		*shape;
-	t_shape		*ptr;
 
 	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 4)
@@ -203,15 +220,88 @@ int	parse_sphere(t_rt *obj, char *line)
 		return (false);
 	}
 	ft_freearray(args);
-	if (obj->shapes == NULL)
-		obj->shapes = shape;
-	else
+	shapeadd_back(&obj->shapes, shape);
+	return (true);
+}
+
+int	parse_plane_args(t_shape *shape, char **args)
+{
+	if (!parse_vector(args[1], &shape->shape.plane.pos))
+		return (false);
+	if (!parse_vector(args[2], &shape->shape.plane.direction))
+		return (false);
+	if (!parse_color(args[3], &shape->shape.plane.color))
+		return (false);
+	return (true);
+}
+
+int	parse_plane(t_rt *obj, char *line)
+{
+	char		**args;
+	t_shape		*shape;
+	t_shape		*ptr;
+
+	args = ft_split(line, ' ');
+	if (ft_arrlen(args) != 4)
 	{
-		ptr = obj->shapes;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = shape;
+		ft_freearray(args);
+		return (ft_error("wrong amount of arguments for plane: ", line));
 	}
+	shape = ft_calloc(sizeof(*shape), 1);
+	if (!shape)
+	{
+		ft_freearray(args);
+		return (ft_error("calloc error making a shape", NULL));
+	}
+	if (!parse_plane_args(shape, args))
+	{
+		ft_freearray(args);
+		return (false);
+	}
+	ft_freearray(args);
+	shapeadd_back(&obj->shapes, shape);
+	return (true);
+}
+
+//diameter and height can both be negative but should be fine?
+int	parse_cylinder_args(t_shape *shape, char **args)
+{
+	if (!parse_vector(args[1], &shape->shape.cylinder.pos))
+		return (false);
+	if (!parse_vector(args[2], &shape->shape.cylinder.direction))
+		return (false);
+	shape->shape.cylinder.diameter = ft_atof(args[3]);
+	shape->shape.cylinder.height = ft_atof(args[4]);
+	if (!parse_color(args[5], &shape->shape.cylinder.color))
+		return (false);
+	return (true);
+}
+
+int	parse_cylinder(t_rt *obj, char *line)
+{
+	char		**args;
+	t_shape		*shape;
+	t_shape		*ptr;
+
+	args = ft_split(line, ' ');
+	if (ft_arrlen(args) != 5)
+	{
+		ft_freearray(args);
+		return (ft_error("wrong amount of arguments for plane: ", line));
+	}
+	shape = ft_calloc(sizeof(*shape), 1);
+	if (!shape)
+	{
+		ft_freearray(args);
+		return (ft_error("calloc error making a shape", NULL));
+	}
+	if (!parse_cylinder_args(shape, args))
+	{
+		ft_freearray(args);
+		return (false);
+	}
+	ft_freearray(args);
+	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
 
@@ -223,13 +313,13 @@ int	parse_line(t_rt *obj, char	*line)
 		return (parse_camera(obj, line));
 	if (!ft_strncmp("L", line, 1))
 		return (parse_light(obj, line));
-	if (!ft_strncmp("sp", line, 1))
-		return (parse_sphere(obj, line));/*
-	if (!ft_strncmp("pl", line, 1))
+	if (!ft_strncmp("sp", line, 2))
+		return (parse_sphere(obj, line));
+	if (!ft_strncmp("pl", line, 2))
 		return (parse_plane(obj, line));
-	if (!ft_strncmp("cy", line, 1))
-		return (parse_cylinder(obj, line));*/
-	return (false);
+	if (!ft_strncmp("cy", line, 2))
+		return (parse_cylinder(obj, line));
+	return (ft_error("invalid input: ", line));
 }
 
 int	parse_file(t_rt	*obj, char *filename)
@@ -251,6 +341,7 @@ int	parse_file(t_rt	*obj, char *filename)
 		if (!parse_line(obj, line))
 		{
 			free (line);
+			close (fd);
 			return (false);
 		}
 		free (line);

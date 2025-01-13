@@ -16,7 +16,7 @@ static void	minirt_init(t_rt *obj, char *windowtitle)
 {
 	obj->mlx.mlx = mlx_init();
 	obj->mlx.win = mlx_new_window(obj->mlx.mlx, WINDOWWIDTH, WINDOWHEIGHT, \
-							   windowtitle);
+									windowtitle);
 	obj->mlx.img = mlx_new_image(obj->mlx.mlx, WINDOWWIDTH, WINDOWHEIGHT);
 	obj->mlx.addr = mlx_get_data_addr(obj->mlx.img, &obj->mlx.bpp, \
 									&obj->mlx.line_len, &obj->mlx.endian);

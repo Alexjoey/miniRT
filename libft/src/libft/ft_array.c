@@ -24,7 +24,7 @@ void	ft_freearray(char **array)
 
 char	**ft_duparray(char **array)
 {
-	int			i;
+	int		i;
 	char	**ret;
 
 	i = 0;

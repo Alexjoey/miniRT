@@ -65,7 +65,7 @@ typedef struct s_sphere
 {
 	t_vector	pos;
 	float		diameter;
-	t_color			color;
+	t_color		color;
 }				t_sphere;
 
 //direction here is the normalized normal vector of the plane
@@ -80,7 +80,7 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	t_vector	pos;
-	t_vector	normal;
+	t_vector	direction;
 	float		diameter;
 	float		height;
 	t_color		color;
@@ -93,7 +93,7 @@ typedef union s_shape_union
 	t_cylinder	cylinder;
 }	t_shape_union;
 
-typedef	struct s_shape
+typedef struct s_shape
 {
 	t_shape_type	type;
 	t_shape_union	shape;
@@ -120,7 +120,7 @@ typedef struct s_rt
 	t_shape			*shapes;
 }					t_rt;
 
-int	parse_file(t_rt	*obj, char *filename);
+int		parse_file(t_rt	*obj, char *filename);
 
 int		ft_error(char *str, char *filename);
 void	my_pixel_put(t_mlx *mlx, int x, int y, int color);
@@ -131,8 +131,8 @@ void	ft_put_new_img(t_rt *obj);
 int		ft_keypress(int keycode, void *param);
 int		ft_close_win(void *param);
 
-int	ft_lerp(int start, int end, double percent);
-int	interpol_color(int scolor, int ecolor, double percent);
-int	rgb_to_int(int r, int g, int b);
+int		ft_lerp(int start, int end, double percent);
+int		interpol_color(int scolor, int ecolor, double percent);
+int		rgb_to_int(int r, int g, int b);
 
 #endif 
