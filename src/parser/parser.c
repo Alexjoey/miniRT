@@ -182,7 +182,7 @@ void	shapeadd_back(t_shape	**root, t_shape *shape)
 {
 	t_shape	*ptr;
 
-	if (!root)
+	if (!*root)
 	{
 		*root = shape;
 		return ;
@@ -282,10 +282,10 @@ int	parse_cylinder(t_rt *obj, char *line)
 	t_shape		*shape;
 
 	args = ft_split(line, ' ');
-	if (ft_arrlen(args) != 5)
+	if (ft_arrlen(args) != 6)
 	{
 		ft_freearray(args);
-		return (ft_error("wrong amount of arguments for plane: ", line));
+		return (ft_error("wrong amount of arguments for cylinder: ", line));
 	}
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)

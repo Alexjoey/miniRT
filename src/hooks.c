@@ -23,6 +23,7 @@ int	ft_close_win(void *param)
 	mlx_destroy_window(obj->mlx.mlx, obj->mlx.win);
 	mlx_destroy_image(obj->mlx.mlx, obj->mlx.img);
 	mlx_destroy_display(obj->mlx.mlx);
+	free (obj->mlx.mlx);
 	ptr = obj->shapes;
 	while (ptr)
 	{
