@@ -11,11 +11,13 @@
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
+#include <unistd.h>
 
 int	ft_error(char *str, char *filename)
 {
-	ft_putstr_fd(str, 1);
-	ft_putendl_fd(filename, 1);
+	ft_putstr_fd(str, STDERR_FILENO);
+	if (filename)
+		ft_putendl_fd(filename, STDERR_FILENO);
 	return (false);
 }
 

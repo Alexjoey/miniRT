@@ -19,6 +19,7 @@ SRC	= ./src/main.c ./src/error.c ./src/hooks.c ./src/utils.c ./src/vector/vector
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 CC		= cc
 CFLAGS	= -Wextra -Wall -Werror -g
+DEBUG_FLAGS= #-fsanitize=address -fsanitize=undefined -fsanitize=bounds -fsanitize=null
 INCLUDE	= -Llibft -lft -I$(INC_DIR) -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
 RM		= rm -rf
 LIBFT	= libft/libft.a
@@ -41,7 +42,7 @@ all:	$(NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -Imlx -Iincludes -MJ $@.json -c $< -o $@ 
+	@$(CC) $(CFLAGS) $(DEBUG_FLAGS) -Imlx -Iincludes -MJ $@.json -c $< -o $@ 
 
 $(LIBFT):
 		@make -C ./libft
@@ -51,7 +52,7 @@ $(MLX):
 
 $(NAME):	$(OBJS) $(LIBFT) $(MLX)
 				@echo Compiling $(NAME)
-				@$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) -o $(NAME)
+				@$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(OBJS) $(INCLUDE) -o $(NAME)
 				@echo "\033[33mMaking compile_commands.json...\033[0m"
 				@find . -type f -name "compile_commands.json" -delete
 				@find $(OBJ_DIR)/ -type f -name "*.json" | xargs sed -e '1s/^/[\n/' >> compile_commands.json

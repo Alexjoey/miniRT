@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
+#include <unistd.h>
 
 static void	minirt_init(t_rt *obj, char *windowtitle)
 {
@@ -28,7 +29,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_printf("wrong input, valid input should be: ./miniRT scene\n");
+		ft_error("wrong input, valid input should be: ./miniRT scene\n", NULL);
 		return (1);
 	}
 	ft_bzero(&obj, sizeof(obj));
