@@ -41,7 +41,7 @@ all:	$(NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -Imlx -Iincludes -c $< -o $@ 
+	@$(CC) $(CFLAGS) -Imlx -Iincludes -MJ $@.json -c $< -o $@ 
 
 $(LIBFT):
 		@make -C ./libft
@@ -52,6 +52,16 @@ $(MLX):
 $(NAME):	$(OBJS) $(LIBFT) $(MLX)
 				@echo Compiling $(NAME)
 				@$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) -o $(NAME)
+				@echo "\033[33mMaking compile_commands.json...\033[0m"
+				@find . -type f -name "compile_commands.json" -delete
+				@find $(OBJ_DIR)/ -type f -name "*.json" | xargs sed -e '1s/^/[\n/' >> compile_commands.json
+				@find ./libft/obj/libft/ -type f -name "*.json" | xargs sed -e '$$s/,$$/\n]/' >> compile_commands.json
+				@find ./libft/obj/gnl/ -type f -name "*.json" | xargs sed -e '$$s/,$$/\n]/' >> compile_commands.json
+				@find ./libft/obj/printf/ -type f -name "*.json" | xargs sed -e '$$s/,$$/\n]/' >> compile_commands.json
+				@find $(OBJ_DIR)/ -type f -name "*.json" -delete
+				@find ./libft/obj/libft/ -type f -name "*.json" -delete
+				@find ./libft/obj/gnl/ -type f -name "*.json" -delete
+				@find ./libft/obj/printf/ -type f -name "*.json" -delete
 
 clean:	
 				@echo "$(BOLD_YELLOW)Removing all object files and directories"

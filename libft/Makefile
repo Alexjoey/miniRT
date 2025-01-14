@@ -65,15 +65,18 @@ comp_mes:
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 				@mkdir -p $(@D)
-				@$(CC) $(CFLAGS) -c $< -o $@
+				@$(CC) $(CFLAGS) -MJ $@.json -c $< -o $@
 
 $(NAME):	comp_mes $(OBJS) 
 				@echo "$(BOLD_YELLOW)Making libft"
 				@ar rcs $(NAME) $(OBJS)
 				@echo "$(BOLD_PURPLE)Library made successfully $(NO_COLOR)"
+				@echo "Making libft_compile_comands_json..."
+				@find . -type f -name "*.o" -delete
 
 clean:
 				@$(RM) $(OBJ_DIR)
+				@rm -f obj/%.o.json
 				@echo "$(BOLD_YELLOW)Removing libft object files and directory"
 
 fclean:		clean
