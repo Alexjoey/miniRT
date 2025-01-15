@@ -2,3 +2,4 @@
 .cache
 miniRT
 compile_commands.json
+Session.vim
