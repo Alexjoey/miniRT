@@ -31,6 +31,11 @@ int	interpol_color(int scolor, int ecolor, double percent)
 	return ((r << 16) | (g << 8) | b);
 }
 
+int	convert_color(t_color color)
+{
+	return ((color.r << 16) | (color.g << 8) | color.b);
+}
+
 int	rgb_to_int(int r, int g, int b)
 {
 	int	rt;

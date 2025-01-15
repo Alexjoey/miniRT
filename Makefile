@@ -6,7 +6,7 @@
 #    By: amylle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/30 11:58:06 by amylle            #+#    #+#              #
-#    Updated: 2024/02/27 14:42:07 by amylle           ###   ########.fr        #
+#    Updated: 2025/01/15 15:25:24 by bclaeys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ INC_DIR	= ./inc
 OBJ_DIR	= ./obj
 
 SRC	= ./src/main.c ./src/error.c ./src/hooks.c ./src/utils.c ./src/vector/vectortests.c ./src/vector/vector_utils1.c ./src/vector/vector_utils2.c \
-	  ./src/parser/parser.c
+	  ./src/parser/parser.c ./src/render_functions.c src/interpol_color.c
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 CC		= clang 
 CFLAGS	= -Wextra -Wall -Werror -g
