@@ -26,7 +26,7 @@ char	*remove_whitespace(char *line)
 			line[i] = ' ';
 		i++;
 	}
-	while (line && line[--i] == ' ')
+	while (line && line[i] && line[--i] == ' ') //invalid read 
 		line[i] = 0;
 	return (line);
 }
@@ -305,6 +305,7 @@ int	parse_cylinder(t_rt *obj, char *line)
 
 int	parse_line(t_rt *obj, char	*line)
 {
+	// If not 'pl' but 'plpl,dplkdkjnd' or something, it will still work. Should it?
 	if (!line || !line[0])
 		return (true);
 	if (!ft_strncmp("A", line, 1))
