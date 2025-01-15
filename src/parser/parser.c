@@ -179,6 +179,7 @@ int	parse_sphere(t_rt *obj, char *line, char **args)
 	shapeadd_back(&obj->shapes, shape);
 	if (!parse_sphere_args(shape, args))
 		return (false);
+	shape->type = SPHERE;
 	return (true);
 }
 

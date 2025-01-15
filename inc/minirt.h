@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:43 by amylle            #+#    #+#             */
-/*   Updated: 2024/06/11 12:27:16 by amylle           ###   ########.fr       */
+/*   Updated: 2025/01/15 16:28:03 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 
 typedef enum s_shape_type
 {
-	sphere,
-	plane,
-	cylinder
+	SPHERE,
+	PLANE,
+	CYLINDER
 }	t_shape_type;
 
 typedef struct s_color
@@ -135,5 +135,6 @@ int		ft_close_win(void *param);
 int		ft_lerp(int start, int end, double percent);
 int		interpol_color(int scolor, int ecolor, double percent);
 int		rgb_to_int(int r, int g, int b);
+int		convert_color(t_color color);
 
 #endif 
