@@ -15,9 +15,9 @@ INC_DIR	= ./inc
 OBJ_DIR	= ./obj
 
 SRC	= ./src/main.c ./src/error.c ./src/hooks.c ./src/utils.c ./src/vector/vectortests.c ./src/vector/vector_utils1.c ./src/vector/vector_utils2.c \
-	  ./src/parser/parser.c ./src/render_functions.c src/interpol_color.c
+	  ./src/parser/parser.c ./src/render_functions.c src/interpol_color.c ./src/camera_rays/camera_rays.c
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
-CC		= clang 
+CC		= clang
 CFLAGS	= -Wextra -Wall -Werror -g
 DEBUG_FLAGS= #-fsanitize=address -fsanitize=undefined -fsanitize=bounds -fsanitize=null
 INCLUDE	= -Llibft -lft -I$(INC_DIR) -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz

@@ -3,3 +3,6 @@
 miniRT
 compile_commands.json
 Session.vim
+mlx/libmlx.a
+mlx/libmlx_Linux.a
+mlx/test/mlx-test

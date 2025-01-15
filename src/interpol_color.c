@@ -36,6 +36,17 @@ int	convert_color(t_color color)
 	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
+//no checking here if its valid
+t_color	set_color(int r, int g, int b)
+{
+	t_color	ret;
+
+	ret.r = r;
+	ret.g = g;
+	ret.b = b;
+	return (ret);
+}
+
 int	rgb_to_int(int r, int g, int b)
 {
 	int	rt;

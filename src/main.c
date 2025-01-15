@@ -71,10 +71,11 @@ int	main(int argc, char **argv)
 	if (!parse_file(&var_data, argv[1]))
 		return (2);
 	minirt_init(&var_data, argv[1]);
+	render(&var_data);
 	mlx_hook(var_data.mlx.win, 17, 0, ft_close_win, &var_data);
 	mlx_hook(var_data.mlx.win, 2, 1L << 0, ft_keypress, &var_data);
 	mlx_put_image_to_window(var_data.mlx.mlx, var_data.mlx.win, 
 			var_data.mlx.img, 0, 0);
-	test_render(&var_data);
+//	test_render(&var_data);
 	mlx_loop(var_data.mlx.mlx);
 }

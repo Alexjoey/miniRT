@@ -41,7 +41,7 @@ SRCS		= $(addprefix $(LIBFT_DIR)/, $(LIBFT_SRCS))\
 
 OBJS 		= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-CC			= cc
+CC			= clang
 RM			= rm -rf
 CFLAGS		= -Wall -Werror -Wextra -I$(INC_DIR)
 

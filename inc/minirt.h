@@ -74,6 +74,7 @@ typedef struct s_sphere
 	t_vector	pos;
 	float		diameter;
 	t_color		color;
+	float		rad_sq;
 }				t_sphere;
 
 //direction here is the normalized normal vector of the plane
@@ -142,7 +143,9 @@ int		ft_close_win(void *param);
 
 int		ft_lerp(int start, int end, double percent);
 int		interpol_color(int scolor, int ecolor, double percent);
+t_color	set_color(int r, int g, int b);
 int		rgb_to_int(int r, int g, int b);
 int		convert_color(t_color color);
 
+void	render(t_rt *obj);
 #endif 
