@@ -30,6 +30,12 @@ typedef enum s_shape_type
 	cylinder
 }	t_shape_type;
 
+typedef struct s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+}				t_ray;
+
 typedef struct s_color
 {
 	int			r;
@@ -42,7 +48,9 @@ typedef struct s_camera
 	bool		initialized;
 	t_vector	pos;
 	t_vector	direction;
-	int			fov;
+	float		scale;
+	float		ratio;
+	float		cam_matrix[4][4];
 }				t_camera;
 
 //ambient light struct
@@ -91,7 +99,7 @@ typedef union s_shape_union
 	t_sphere	sphere;
 	t_plane		plane;
 	t_cylinder	cylinder;
-}	t_shape_union;
+}				t_shape_union;
 
 typedef struct s_shape
 {

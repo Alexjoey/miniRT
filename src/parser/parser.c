@@ -87,11 +87,16 @@ int	parse_vector(char *str, t_vector *vec)
 	return (true);
 }
 
-int	parse_fov(char *str, int *fov)
+int	parse_fov(char *str, float *scale)
 {
-	*fov = ft_atoi(str);
-	if (*fov >= 0 && *fov <= 180)
+	int	fov;
+
+	fov = ft_atoi(str);
+	if (fov >= 0 && fov <= 180)
+	{
+		*scale = tanf(fov * 0.5 * M_PI / 180);
 		return (true);
+	}
 	return (ft_error("invalid fov given, must be in range of 0-180: ", str));
 }
 
@@ -117,8 +122,9 @@ int	parse_camera(t_rt *obj, char *line, char **args)
 		return (ft_error("wrong amount of arguments for camera: ", line));
 	if (!parse_vector(args[1], &obj->camera.pos) || \
 		!parse_vector(args[2], &obj->camera.direction) || \
-		!parse_fov(args[3], &obj->camera.fov))
+		!parse_fov(args[3], &obj->camera.scale))
 		return (false);
+	obj->camera.ratio = WINDOWWIDTH / (float) WINDOWHEIGHT;
 	obj->camera.initialized = true;
 	return (true);
 }
