@@ -21,6 +21,20 @@ int	ft_error(char *str, char *filename)
 	return (false);
 }
 
+void	free_shapes(t_shape *shapes)
+{
+	t_shape	*ptr;
+	t_shape	*lst;
+
+	ptr = shapes;
+	while (ptr)
+	{
+		lst = ptr;
+		ptr = ptr->next;
+		free (lst);
+	}
+}
+
 void	ft_freestrarray(char **strarray)
 {
 	int	i;

@@ -176,9 +176,9 @@ int	parse_sphere(t_rt *obj, char *line, char **args)
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)
 		return (ft_error("calloc error making a shape", NULL));
+	shapeadd_back(&obj->shapes, shape);
 	if (!parse_sphere_args(shape, args))
 		return (false);
-	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
 
@@ -202,9 +202,9 @@ int	parse_plane(t_rt *obj, char *line, char **args)
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)
 		return (ft_error("calloc error making a shape", NULL));
+	shapeadd_back(&obj->shapes, shape);
 	if (!parse_plane_args(shape, args))
 		return (false);
-	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
 
@@ -231,9 +231,9 @@ int	parse_cylinder(t_rt *obj, char *line, char **args)
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)
 		return (ft_error("calloc error making a shape", NULL));
+	shapeadd_back(&obj->shapes, shape);
 	if (!parse_cylinder_args(shape, args))
 		return (false);
-	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
 
@@ -283,6 +283,7 @@ int	parse_file(t_rt	*obj, char *filename)
 		{
 			free (line);
 			close (fd);
+			free_shapes(obj->shapes);
 			return (false);
 		}
 		free (line);

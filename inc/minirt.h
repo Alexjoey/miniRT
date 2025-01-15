@@ -123,6 +123,7 @@ typedef struct s_rt
 int		parse_file(t_rt	*obj, char *filename);
 
 int		ft_error(char *str, char *filename);
+void	free_shapes(t_shape *shapes);
 void	my_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	ft_freestrarray(char **strarray);
 int		ft_atoi_base(char *num, char *base);
