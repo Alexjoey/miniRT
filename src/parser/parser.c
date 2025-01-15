@@ -95,74 +95,44 @@ int	parse_fov(char *str, int *fov)
 	return (ft_error("invalid fov given, must be in range of 0-180: ", str));
 }
 
-int	parse_ambient(t_rt *obj, char *line)
+int	parse_ambient(t_rt *obj, char *line, char **args)
 {
-	char		**args;
-
 	if (obj->ambient.initialized == true)
 		return (ft_error("there can only be one ambient light", NULL));
-	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 3)
-	{
-		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for ambient: ", line));
-	}
 	if (!parse_ratio(args[1], &obj->ambient.ratio) || \
 		!parse_color(args[2], &obj->ambient.color))
-	{
-		ft_freearray(args);
 		return (false);
-	}
-	ft_freearray(args);
 	obj->ambient.initialized = true;
 	return (true);
 }
 
 //not checking if the normalised vector actually is normalised
-int	parse_camera(t_rt *obj, char	*line)
+int	parse_camera(t_rt *obj, char *line, char **args)
 {
-	char		**args;
-
 	if (obj->camera.initialized == true)
 		return (ft_error("there can only be one camera light", NULL));
-	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 4)
-	{
-		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for camera: ", line));
-	}
 	if (!parse_vector(args[1], &obj->camera.pos) || \
 		!parse_vector(args[2], &obj->camera.direction) || \
 		!parse_fov(args[3], &obj->camera.fov))
-	{
-		ft_freearray(args);
 		return (false);
-	}
-	ft_freearray(args);
 	obj->camera.initialized = true;
 	return (true);
 }
 
-int	parse_light(t_rt *obj, char *line)
+int	parse_light(t_rt *obj, char *line, char **args)
 {
-	char		**args;
-
 	if (obj->light.initialized == true)
 		return (ft_error("there can only be one light", NULL));
-	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 4)
-	{
-		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for light: ", line));
-	}
 	if (!parse_vector(args[1], &obj->light.pos) || \
 		!parse_ratio(args[2], &obj->light.brightness) || \
 		!parse_color(args[3], &obj->light.color))
-	{
-		ft_freearray(args);
 		return (false);
-	}
-	ft_freearray(args);
 	obj->light.initialized = true;
 	return (true);
 }
@@ -197,29 +167,17 @@ void	shapeadd_back(t_shape	**root, t_shape *shape)
 }
 
 //just make an addlast function to make this shit work
-int	parse_sphere(t_rt *obj, char *line)
+int	parse_sphere(t_rt *obj, char *line, char **args)
 {
-	char		**args;
 	t_shape		*shape;
 
-	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 4)
-	{
-		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for sphere: ", line));
-	}
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)
-	{
-		ft_freearray(args);
 		return (ft_error("calloc error making a shape", NULL));
-	}
 	if (!parse_sphere_args(shape, args))
-	{
-		ft_freearray(args);
 		return (false);
-	}
-	ft_freearray(args);
 	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
@@ -235,29 +193,17 @@ int	parse_plane_args(t_shape *shape, char **args)
 	return (true);
 }
 
-int	parse_plane(t_rt *obj, char *line)
+int	parse_plane(t_rt *obj, char *line, char **args)
 {
-	char		**args;
 	t_shape		*shape;
 
-	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 4)
-	{
-		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for plane: ", line));
-	}
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)
-	{
-		ft_freearray(args);
 		return (ft_error("calloc error making a shape", NULL));
-	}
 	if (!parse_plane_args(shape, args))
-	{
-		ft_freearray(args);
 		return (false);
-	}
-	ft_freearray(args);
 	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
@@ -276,51 +222,45 @@ int	parse_cylinder_args(t_shape *shape, char **args)
 	return (true);
 }
 
-int	parse_cylinder(t_rt *obj, char *line)
+int	parse_cylinder(t_rt *obj, char *line, char **args)
 {
-	char		**args;
 	t_shape		*shape;
 
-	args = ft_split(line, ' ');
 	if (ft_arrlen(args) != 6)
-	{
-		ft_freearray(args);
 		return (ft_error("wrong amount of arguments for cylinder: ", line));
-	}
 	shape = ft_calloc(sizeof(*shape), 1);
 	if (!shape)
-	{
-		ft_freearray(args);
 		return (ft_error("calloc error making a shape", NULL));
-	}
 	if (!parse_cylinder_args(shape, args))
-	{
-		ft_freearray(args);
 		return (false);
-	}
-	ft_freearray(args);
 	shapeadd_back(&obj->shapes, shape);
 	return (true);
 }
 
 int	parse_line(t_rt *obj, char	*line)
 {
-	// If not 'pl' but 'plpl,dplkdkjnd' or something, it will still work. Should it?
-	if (!line || !line[0])
+	int		ret;
+	char	**args;
+
+	if (!line || !line[0] || line[0] == ' ')
 		return (true);
-	if (!ft_strncmp("A", line, 1))
-		return (parse_ambient(obj, line));
-	if (!ft_strncmp("C", line, 1))
-		return (parse_camera(obj, line));
-	if (!ft_strncmp("L", line, 1))
-		return (parse_light(obj, line));
-	if (!ft_strncmp("sp", line, 2))
-		return (parse_sphere(obj, line));
-	if (!ft_strncmp("pl", line, 2))
-		return (parse_plane(obj, line));
-	if (!ft_strncmp("cy", line, 2))
-		return (parse_cylinder(obj, line));
-	return (ft_error("invalid input: ", line));
+	args = ft_split(line, ' ');
+	if (!ft_strncmp("A", args[0], 2))
+		ret = parse_ambient(obj, line, args);
+	else if (!ft_strncmp("C", args[0], 2))
+		ret = parse_camera(obj, line, args);
+	else if (!ft_strncmp("L", args[0], 2))
+		ret = parse_light(obj, line, args);
+	else if (!ft_strncmp("sp", args[0], 3))
+		ret = parse_sphere(obj, line, args);
+	else if (!ft_strncmp("pl", args[0], 3))
+		ret = parse_plane(obj, line, args);
+	else if (!ft_strncmp("cy", args[0], 3))
+		ret = parse_cylinder(obj, line, args);
+	else
+		ret = ft_error("invalid input: ", line);
+	ft_freearray(args);
+	return (ret);
 }
 
 int	parse_file(t_rt	*obj, char *filename)
@@ -350,4 +290,3 @@ int	parse_file(t_rt	*obj, char *filename)
 	close(fd);
 	return (true);
 }
-
