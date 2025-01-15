@@ -242,7 +242,7 @@ int	parse_line(t_rt *obj, char	*line)
 	int		ret;
 	char	**args;
 
-	if (!line || !line[0] || line[0] == ' ')
+	if (!line || !line[0] || (line[0] == ' ' && line[1] == '\0'))
 		return (true);
 	args = ft_split(line, ' ');
 	if (!ft_strncmp("A", args[0], 2))
