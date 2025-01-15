@@ -26,7 +26,7 @@ char	*remove_whitespace(char *line)
 			line[i] = ' ';
 		i++;
 	}
-	while (line && line[i] && line[--i] == ' ') //invalid read 
+	while (line && line[i] && line[--i] == ' ')
 		line[i] = 0;
 	return (line);
 }
@@ -350,3 +350,4 @@ int	parse_file(t_rt	*obj, char *filename)
 	close(fd);
 	return (true);
 }
+

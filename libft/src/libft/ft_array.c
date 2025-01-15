@@ -12,7 +12,7 @@
 
 #include "../../inc/libft.h"
 
-void	ft_freearray_and_buffer(char **array)
+void	ft_freearray(char **array)
 {
 	int	i;
 
