@@ -68,7 +68,7 @@ void	ft_swapf(float *nptr1, float *nptr2)
 	*nptr2 = tmp;
 }
 
-bool	inter_sphere(t_vector *c_pos, t_vector *c_dir, t_shape *shape, float *t)
+bool	inter_sphere(t_vector *c_pos, t_vector *c_dir, t_sphere *sphere, float *t)
 {
 	t_vector	l;
 	float		t0;
@@ -77,21 +77,21 @@ bool	inter_sphere(t_vector *c_pos, t_vector *c_dir, t_shape *shape, float *t)
 	float		thc;
 	float		d2;
 
-	l = subtract_vector(shape->shape.sphere.pos, *c_pos);
+	l = subtract_vector(sphere->pos, *c_pos);
 	tca = dot_product(l, *c_dir);
 	if (tca < 0)
 		return (false);
 	d2 = dot_product(l, l) - tca * tca;
-	if (d2 > shape->shape.sphere.rad_sq)
+	if (d2 > sphere->rad_sq)
 		return (false);
-	thc = sqrtf(shape->shape.sphere.rad_sq - d2);
+	thc = sqrtf(sphere->rad_sq - d2);
 	t0 = tca - thc;
 	t1 = tca + thc;
 	if (t0 > t1)
 		ft_swapf(&t0, &t1);
-	if (t0 < 0.0)
+	if (t0 < 0)
 		t0 = t1;
-	if (t0 < 0.0)
+	if (t0 < 0)
 		return (false);
 	*t = t0;
 	return (true);
@@ -100,7 +100,7 @@ bool	inter_sphere(t_vector *c_pos, t_vector *c_dir, t_shape *shape, float *t)
 bool	intersect(t_vector *c_pos, t_vector *c_dir, t_shape *shape, float *t)
 {
 	if (shape->type == SPHERE)
-		return (inter_sphere(c_pos, c_dir, shape, t));
+		return (inter_sphere(c_pos, c_dir, &shape->shape.sphere, t));
 /*	if (shape->type == PLANE)
 		return (intersect_plane());
 	if (shape->type == CYLINDER)
