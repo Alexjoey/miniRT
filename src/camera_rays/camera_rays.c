@@ -114,6 +114,25 @@ void	recalc_plane_cache(t_vector *c_pos, t_plane *pl)
 	pl->cache_valid = true;
 }
 
+bool	intersect_circle(t_vector *c_pos, t_vector *c_dir, t_cylinder *cyl, float *t)
+{
+	float	denominator;
+
+	denominator = dot_product(cyl->direction, *c_dir);
+	if (denominator > 1e-6)
+	{
+		*t = dot_product(subtract_vector(cyl->pos, *c_pos), cyl->direction)
+			/ denominator;
+		return ((length_vector(subtract_vector(add_vector(*c_pos, multiply_vector(*c_dir, *t)), cyl->pos))) < cyl->diameter * 0.5);
+	}
+	return (false);
+}
+
+bool	intersect_cylinder(t_vector *c_pos, t_vector *c_dir, t_cylinder *cyl, float *t)
+{
+	
+}
+
 //can maybe cache pl->pos and c_pos subtraction result
 bool	intersect_plane(t_vector *c_pos, t_vector *c_dir, t_plane *pl, float *t)
 {
@@ -125,6 +144,7 @@ bool	intersect_plane(t_vector *c_pos, t_vector *c_dir, t_plane *pl, float *t)
 		if (pl->cache_valid == false)
 			recalc_plane_cache(c_pos, pl);
 		*t = pl->numerator_cache / denominator;
+
 		return (*t >= 0);
 	}
 	return (false);
@@ -136,8 +156,8 @@ bool	intersect(t_vector *c_pos, t_vector *c_dir, t_shape *shape, float *t)
 		return (intersect_sphere(c_pos, c_dir, &shape->shape.sphere, t));
 	if (shape->type == PLANE)
 		return (intersect_plane(c_pos, c_dir, &shape->shape.plane, t));
-	/* if (shape->type == CYLINDER) */
-	/* 	return (intersect_cylinder()); */
+	if (shape->type == CYLINDER)
+		return (intersect_cylinder(c_pos, c_dir, &shape->shape.cylinder, t));
 	return (false);
 }
 
@@ -178,8 +198,8 @@ int	trace_ray(t_vector *camera_pos, t_vector *camera_dir, t_rt *obj)
 			return (interpol_color(convert_color(shape->shape.sphere.color), 0, percent));
 		if (shape->type == PLANE)
 			return (interpol_color(convert_color(shape->shape.plane.color), 0, percent));
-		/*if (shape->type == CYLINDER)
-			return (interpol_color(convert_color(shape->shape.cylinder.color), 0, percent));*/
+		if (shape->type == CYLINDER)
+			return (interpol_color(convert_color(shape->shape.cylinder.color), 0, percent));
 	}
 	return (0);
 }

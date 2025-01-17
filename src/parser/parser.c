@@ -257,7 +257,7 @@ int	parse_line(t_rt *obj, char	*line)
 	if (!line || !line[0] || (line[0] == ' ' && line[1] == '\0'))
 		return (true);
 	args = ft_split(line, ' ');
-	if (!ft_strncmp("A", args[0], 2))
+	if (!ft_strncmp("A", args[0], 2))  
 		ret = parse_ambient(obj, line, args);
 	else if (!ft_strncmp("C", args[0], 2))
 		ret = parse_camera(obj, line, args);
