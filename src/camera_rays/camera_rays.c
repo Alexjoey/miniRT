@@ -68,6 +68,13 @@ void	ft_swapf(float *nptr1, float *nptr2)
 	*nptr2 = tmp;
 }
 
+void	recalc_sphere_cache(t_vector *c_pos, t_sphere *sph)
+{
+	sph->l_cache = subtract_vector(sph->pos, *c_pos);
+	sph->cache_valid = true;
+}
+
+//reminder to set sph->cache_valid to false whenever sph->pos or camera_pos change
 bool	intersect_sphere(t_vector *c_pos, 
 							t_vector *c_dir, 
 							t_sphere *sph, 
@@ -79,7 +86,9 @@ bool	intersect_sphere(t_vector *c_pos,
 	float		thc;
 	float		d2;
 
-	l = subtract_vector(sph->pos, *c_pos);
+	if (sph->cache_valid == false)
+		recalc_sphere_cache(c_pos, sph);
+	l = sph->l_cache;
 	tca = dot_product(l, *c_dir);
 	if (tca < 0)
 		return (false);
@@ -99,6 +108,12 @@ bool	intersect_sphere(t_vector *c_pos,
 	return (true);
 }
 
+void	recalc_plane_cache(t_vector *c_pos, t_plane *pl)
+{
+	pl->numerator_cache = dot_product(subtract_vector(pl->pos, *c_pos), pl->direction);
+	pl->cache_valid = true;
+}
+
 //can maybe cache pl->pos and c_pos subtraction result
 bool	intersect_plane(t_vector *c_pos, t_vector *c_dir, t_plane *pl, float *t)
 {
@@ -107,7 +122,9 @@ bool	intersect_plane(t_vector *c_pos, t_vector *c_dir, t_plane *pl, float *t)
 	denominator = dot_product(pl->direction, *c_dir);
 	if (denominator > 1e-6)
 	{
-		*t = dot_product(subtract_vector(pl->pos, *c_pos), pl->direction) / denominator;
+		if (pl->cache_valid == false)
+			recalc_plane_cache(c_pos, pl);
+		*t = pl->numerator_cache / denominator;
 		return (*t >= 0);
 	}
 	return (false);

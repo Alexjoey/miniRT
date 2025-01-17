@@ -187,6 +187,7 @@ int	parse_sphere(t_rt *obj, char *line, char **args)
 		return (false);
 	shape->shape.sphere.rad_sq = powf(shape->shape.sphere.diameter * 0.5, 2);
 	shape->type = SPHERE;
+	shape->shape.sphere.cache_valid = false;
 	return (true);
 }
 
@@ -214,6 +215,7 @@ int	parse_plane(t_rt *obj, char *line, char **args)
 	if (!parse_plane_args(shape, args))
 		return (false);
 	shape->type = PLANE;
+	shape->shape.plane.cache_valid = false;
 	return (true);
 }
 

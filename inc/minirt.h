@@ -75,6 +75,8 @@ typedef struct s_sphere
 	float		diameter;
 	t_color		color;
 	float		rad_sq;
+	t_vector	l_cache;
+	bool		cache_valid;
 }				t_sphere;
 
 //direction here is the normalized normal vector of the plane
@@ -84,6 +86,8 @@ typedef struct s_plane
 	t_vector	pos;
 	t_vector	direction;
 	t_color		color;
+	float		numerator_cache;
+	bool		cache_valid;
 }				t_plane;
 
 typedef struct s_cylinder
