@@ -124,6 +124,9 @@ int	parse_camera(t_rt *obj, char *line, char **args)
 		!parse_vector(args[2], &obj->camera.direction) || \
 		!parse_fov(args[3], &obj->camera.scale))
 		return (false);
+	if (length_vector(obj->camera.direction) == 0)
+		return (ft_error("camera direction vector cant have length 0", NULL));
+	obj->camera.direction = normalize_vector(obj->camera.direction);
 	obj->camera.ratio = WINDOWWIDTH / (float) WINDOWHEIGHT;
 	obj->camera.initialized = true;
 	return (true);
@@ -197,6 +200,9 @@ int	parse_plane_args(t_shape *shape, char **args)
 		return (false);
 	if (!parse_vector(args[2], &shape->shape.plane.direction))
 		return (false);
+	if (length_vector(shape->shape.plane.direction) == 0)
+		return (ft_error("plane direction vector cant have length 0", NULL));
+	shape->shape.plane.direction = normalize_vector(shape->shape.plane.direction);
 	if (!parse_color(args[3], &shape->shape.plane.color))
 		return (false);
 	return (true);
@@ -220,15 +226,18 @@ int	parse_plane(t_rt *obj, char *line, char **args)
 }
 
 //diameter and height can both be negative but should be fine?
-int	parse_cylinder_args(t_shape *shape, char **args)
+int	parse_cylinder_args(t_cylinder *cylinder, char **args)
 {
-	if (!parse_vector(args[1], &shape->shape.cylinder.pos))
+	if (!parse_vector(args[1], &cylinder->pos))
 		return (false);
-	if (!parse_vector(args[2], &shape->shape.cylinder.direction))
+	if (!parse_vector(args[2], &cylinder->direction))
 		return (false);
-	shape->shape.cylinder.diameter = ft_atof(args[3]);
-	shape->shape.cylinder.height = ft_atof(args[4]);
-	if (!parse_color(args[5], &shape->shape.cylinder.color))
+	if (length_vector(cylinder->direction) == 0)
+		return (ft_error("cylinder direction vector cant have length 0", NULL));
+	cylinder->direction = normalize_vector(cylinder->direction);
+	cylinder->diameter = ft_atof(args[3]);
+	cylinder->height = ft_atof(args[4]);
+	if (!parse_color(args[5], &cylinder->color))
 		return (false);
 	return (true);
 }
@@ -243,7 +252,7 @@ int	parse_cylinder(t_rt *obj, char *line, char **args)
 	if (!shape)
 		return (ft_error("calloc error making a shape", NULL));
 	shapeadd_back(&obj->shapes, shape);
-	if (!parse_cylinder_args(shape, args))
+	if (!parse_cylinder_args(&shape->shape.cylinder, args))
 		return (false);
 	shape->type = CYLINDER;
 	return (true);

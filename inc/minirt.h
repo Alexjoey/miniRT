@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:43 by amylle            #+#    #+#             */
-/*   Updated: 2025/01/15 16:28:03 by bclaeys          ###   ########.fr       */
+/*   Updated: 2025/01/20 18:02:48 by amylle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,10 @@ t_color	set_color(int r, int g, int b);
 int		rgb_to_int(int r, int g, int b);
 int		convert_color(t_color color);
 
+bool	intersect(t_ray *ray, t_shape *shape, float *t);
+t_color	calc_lighting(t_ray *ray, t_shape *shape, t_light *light, t_vector *phit, t_vector *nhit);
+
+void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
+void	make_cam_matrix(t_camera *camera);
 void	render(t_rt *obj);
 #endif 
