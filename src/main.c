@@ -16,11 +16,11 @@
 static void	minirt_init(t_rt *var_data, char *windowtitle)
 {
 	var_data->mlx.mlx = mlx_init();
-	var_data->mlx.win = mlx_new_window(var_data->mlx.mlx, WINDOWWIDTH, 
+	var_data->mlx.win = mlx_new_window(var_data->mlx.mlx, WINDOWWIDTH,
 			WINDOWHEIGHT, windowtitle);
-	var_data->mlx.img = mlx_new_image(var_data->mlx.mlx, WINDOWWIDTH, 
+	var_data->mlx.img = mlx_new_image(var_data->mlx.mlx, WINDOWWIDTH,
 			WINDOWHEIGHT);
-	var_data->mlx.addr = mlx_get_data_addr(var_data->mlx.img, 
+	var_data->mlx.addr = mlx_get_data_addr(var_data->mlx.img,
 			&var_data->mlx.bpp, &var_data->mlx.line_len, &var_data->mlx.endian);
 }
 
@@ -37,19 +37,19 @@ int	test_render(t_rt *var_data)
 	{
 		while (y <= WINDOWHEIGHT)
 		{
-			while (x <= WINDOWWIDTH)	
+			while (x <= WINDOWWIDTH)
 			{
-				if (tmp->type ==SPHERE)
-					if ((tmp->shape.sphere.diameter / 2) 
-								< sqrt((x - tmp->shape.sphere.pos.x) 
-								* (x - tmp->shape.sphere.pos.x) 
-								+ (y - tmp->shape.sphere.pos.x) 
-								* (y - tmp->shape.sphere.pos.x)))
-						my_pixel_put(&var_data->mlx, x, y, 
-								convert_color(tmp->shape.sphere.color));
+				if (tmp->type == SPHERE)
+					if ((tmp->shape.sphere.diameter / 2)
+						< sqrt((x - tmp->shape.sphere.pos.x)
+							* (x - tmp->shape.sphere.pos.x)
+							+ (y - tmp->shape.sphere.pos.x)
+							* (y - tmp->shape.sphere.pos.x)))
+						my_pixel_put(&var_data->mlx, x, y,
+							convert_color(tmp->shape.sphere.color));
 				/* else if (tmp->type == PLANE) */
 				/* else if (tmp->type == CYLINDER) */
-				x++;			
+				x++;
 			}
 			x = 0;
 			y += 10;
@@ -75,8 +75,8 @@ int	main(int argc, char **argv)
 	render(&var_data);
 	mlx_hook(var_data.mlx.win, 17, 0, ft_close_win, &var_data);
 	mlx_hook(var_data.mlx.win, 2, 1L << 0, ft_keypress, &var_data);
-	mlx_put_image_to_window(var_data.mlx.mlx, var_data.mlx.win, 
-			var_data.mlx.img, 0, 0);
+	mlx_put_image_to_window(var_data.mlx.mlx, var_data.mlx.win,
+		var_data.mlx.img, 0, 0);
 	/* test_render(&var_data); */
 	mlx_loop(var_data.mlx.mlx);
 }

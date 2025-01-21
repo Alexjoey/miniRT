@@ -161,7 +161,6 @@ int		rgb_to_int(int r, int g, int b);
 int		convert_color(t_color color);
 
 bool	intersect(t_ray *ray, t_shape *shape, float *t);
-t_color	calc_lighting(t_ray *ray, t_shape *shape, t_light *light, t_vector *phit, t_vector *nhit);
 
 void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
 void	make_cam_matrix(t_camera *camera);

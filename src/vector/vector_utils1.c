@@ -14,7 +14,7 @@
 
 t_vector	set_vector(float x, float y, float z)
 {
-	return ((t_vector){x , y, z});
+	return ((t_vector){x, y, z});
 }
 
 t_vector	add_vector(t_vector a, t_vector b)

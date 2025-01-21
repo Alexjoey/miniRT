@@ -75,20 +75,18 @@ int	trace_ray(t_ray *ray, t_rt *obj, t_hit *hit)
 
 int	cast_ray(t_ray *cam_ray, t_rt *obj)
 {
-	t_hit	hit;
-	t_hit	shadow_hit;
-	t_vector	light_dir;
+	t_hit		hit;
+	t_hit		shadow_hit;
 	float		dot_prod;
 	t_ray		shadow_ray;
 	float		tmp;
 
 	if (trace_ray(cam_ray, obj, &hit))
 	{
-		light_dir = normalize_vector(subtract_vector(obj->light.pos, hit.phit));
-		dot_prod = dot_product(hit.nhit, light_dir);
+		shadow_ray.direction = normalize_vector(subtract_vector(obj->light.pos, hit.phit));
+		dot_prod = dot_product(hit.nhit, shadow_ray.direction);
 		if (dot_prod < 0)
 			return (0);
-		shadow_ray.direction = light_dir;
 		shadow_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.01));
 		tmp = length_vector(subtract_vector(obj->light.pos, hit.phit));
 		if (!trace_ray(&shadow_ray, obj, &shadow_hit) && shadow_hit.t > tmp)
@@ -106,13 +104,13 @@ int	cast_ray(t_ray *cam_ray, t_rt *obj)
 
 void	render(t_rt *obj)
 {
-	int			y;
-	int			x;
-	int			color;
-	t_ray		cam_ray;
+	int		y;
+	int		x;
+	int		color;
+	t_ray	cam_ray;
 
-    clock_t start, end;
-    double cpu_time_used;
+    clock_t	start, end;
+    double	cpu_time_used;
 	start = clock();
 
 	make_cam_matrix(&obj->camera);
@@ -133,5 +131,5 @@ void	render(t_rt *obj)
 	}
 	end = clock();
 	cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("Time taken by function: %f seconds\n", cpu_time_used);
+	printf("Time taken by function: %f seconds\n", cpu_time_used);
 }

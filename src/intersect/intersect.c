@@ -27,7 +27,9 @@ void	recalc_sphere_cache(t_vector *c_pos, t_sphere *sph)
 	sph->cache_valid = true;
 }
 
-//reminder to set sph->cache_valid to false whenever sph->pos or camera_pos change
+//reminder to set sph->cache_valid to false
+//whenever sph->pos or camera_pos change
+//idk what to do w sphere_cache for now
 bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 {
 	t_vector	l;
