@@ -30,18 +30,27 @@ typedef enum s_shape_type
 	CYLINDER
 }	t_shape_type;
 
-typedef struct s_ray
-{
-	t_vector	origin;
-	t_vector	direction;
-}				t_ray;
-
 typedef struct s_color
 {
 	int			r;
 	int			g;
 	int			b;
 }				t_color;
+
+typedef struct s_hit
+{
+	t_vector		nhit;
+	t_vector		phit;
+	t_color			color;
+	float			t;
+	struct s_shape	*shape;
+}					t_hit;
+
+typedef struct s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+}				t_ray;
 
 typedef struct s_camera
 {

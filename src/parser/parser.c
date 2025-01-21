@@ -284,6 +284,7 @@ int	parse_line(t_rt *obj, char	*line)
 	return (ret);
 }
 
+//need to add a check at the end for if theres no light/no camera/no ambient
 int	parse_file(t_rt	*obj, char *filename)
 {
 	int		fd;

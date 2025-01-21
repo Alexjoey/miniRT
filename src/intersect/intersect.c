@@ -36,9 +36,9 @@ bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 	float		thc;
 	float		d2;
 
-	if (sph->cache_valid == false)
-		recalc_sphere_cache(&ray->origin, sph);
-	l = sph->l_cache;
+//	if (sph->cache_valid == false)
+//		recalc_sphere_cache(&ray->origin, sph);
+	l = subtract_vector(sph->pos, ray->origin);
 	tca = dot_product(l, ray->direction);
 	if (tca < 0)
 		return (false);
@@ -50,15 +50,13 @@ bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 	td[1] = tca + thc;
 	if (td[0] > td[1])
 		ft_swapf(&td[0], &td[1]);
-	if (td[0] < 0)
+	if (td[0] < 1e-6)
 		td[0] = td[1];
-	if (td[0] < 0)
+	if (td[0] < 1e-6)
 		return (false);
 	*t = td[0];
 	return (true);
 }
-
-
 
 bool	intersect_circle(t_vector *c_pos, t_vector *c_dir, t_cylinder *cyl, float *t)
 {
@@ -92,9 +90,9 @@ bool	intersect_plane(t_ray *ray, t_plane *pl, float *t)
 	denominator = dot_product(pl->direction, ray->direction);
 	if (fabs(denominator) > 1e-6)
 	{
-		if (pl->cache_valid == false)
-			recalc_plane_cache(&ray->origin, pl);
-		*t = pl->numerator_cache / denominator;
+	/*	if (pl->cache_valid == false)
+			recalc_plane_cache(&ray->origin, pl);*/
+		*t = dot_product(subtract_vector(pl->pos, ray->origin), pl->direction) / denominator;
 		return (*t >= 0);
 	}
 	return (false);

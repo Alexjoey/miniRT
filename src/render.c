@@ -36,37 +36,70 @@ t_vector	calc_nhit(t_light *light, t_vector *phit, t_shape *shape)
 	return (set_vector(0, 0, 1));
 }
 
-int	trace_ray(t_ray *cam_ray, t_rt *obj)
+t_color	get_shape_color(t_shape *shape)
 {
-	float		min_d;
-	t_shape		*shape;
+	if (shape->type == SPHERE)
+		return (shape->shape.sphere.color);
+	if (shape->type == PLANE)
+		return (shape->shape.plane.color);
+	else
+		return (shape->shape.cylinder.color);
+}
+
+int	trace_ray(t_ray *ray, t_rt *obj, t_hit *hit)
+{
 	t_shape		*ptr;
 	float		t;
-	t_color		color;
-	t_vector	phit;
-	t_vector	nhit;
 
 	ptr = obj->shapes;
-	shape = NULL;
-	min_d = INFINITY;
-	t = 0;
+	hit->shape = NULL;
+	hit->t = INFINITY;
 	while (ptr)
 	{
-		if (intersect(cam_ray, ptr, &t) && t < min_d)
+		if (intersect(ray, ptr, &t) && t < hit->t)
 		{
-			shape = ptr;
-			min_d = t;
+			hit->shape = ptr;
+			hit->t = t;
 		}
 		ptr = ptr->next;
 	}
-	if (shape)
+	if (hit->shape)
 	{
-		phit = add_vector(cam_ray->origin, multiply_vector(cam_ray->direction, min_d));
-		nhit = calc_nhit(&obj->light, &phit, shape);
-		color = calc_lighting(cam_ray, shape, &obj->light, &phit, &nhit);
-		return (convert_color(color));
+		hit->phit = add_vector(ray->origin, multiply_vector(ray->direction, hit->t));
+		hit->nhit = calc_nhit(&obj->light, &hit->phit, hit->shape);
+		hit->color = get_shape_color(hit->shape);
+		return (true);
 	}
-	return (rgb_to_int(0, 0, 200));
+	return (false);
+}
+
+int	cast_ray(t_ray *cam_ray, t_rt *obj)
+{
+	t_hit	hit;
+	t_hit	shadow_hit;
+	t_vector	light_dir;
+	float		dot_prod;
+	t_ray		shadow_ray;
+	float		tmp;
+
+	if (trace_ray(cam_ray, obj, &hit))
+	{
+		light_dir = normalize_vector(subtract_vector(obj->light.pos, hit.phit));
+		dot_prod = dot_product(hit.nhit, light_dir);
+		if (dot_prod < 0)
+			return (0);
+		shadow_ray.direction = light_dir;
+		shadow_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.01));
+		tmp = length_vector(subtract_vector(obj->light.pos, hit.phit));
+		if (!trace_ray(&shadow_ray, obj, &shadow_hit) && shadow_hit.t > tmp)
+		{
+			hit.color.r *= obj->light.brightness * dot_prod;
+			hit.color.g *= obj->light.brightness * dot_prod;
+			hit.color.b *= obj->light.brightness * dot_prod;
+			return (convert_color(hit.color));
+		}
+	}
+	return (0);
 }
 
 #include <time.h>
@@ -92,7 +125,7 @@ void	render(t_rt *obj)
 		while (x < WINDOWWIDTH)
 		{
 			make_camera_ray(obj, x, y, &cam_ray.direction);
-			color = trace_ray(&cam_ray, obj);
+			color = cast_ray(&cam_ray, obj);
 			my_pixel_put(&obj->mlx, x, y, color);
 			x++;
 		}
