@@ -42,6 +42,5 @@ int	main(int argc, char **argv)
 	mlx_hook(var_data.mlx.win, 2, 1L << 0, ft_keypress, &var_data);
 	mlx_put_image_to_window(var_data.mlx.mlx, var_data.mlx.win,
 		var_data.mlx.img, 0, 0);
-	/* test_render(&var_data); */
 	mlx_loop(var_data.mlx.mlx);
 }

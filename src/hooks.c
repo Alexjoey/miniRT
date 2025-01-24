@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:09 by amylle            #+#    #+#             */
-/*   Updated: 2025/01/15 16:26:39 by bclaeys          ###   ########.fr       */
+/*   Updated: 2025/01/24 15:17:44 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ int	ft_close_win(void *param)
 	free_shapes(obj->shapes);
 	exit (0);
 }
+
+/* static void	ft_adjust_offset(int x, int y, void	*param) */
+/* { */
+/* 	t_rt	*var_data; */
+/**/
+/* 	var_data = (t_rt*)param; */
+/* 	ft_put_new_img(var_data); */
+/* } */
 
 /*
 static void	ft_adjust_offset(int x, int y, void	*param)
@@ -69,21 +77,21 @@ static void	ft_adjust_angle(int keycode, void *param)
 int	ft_keypress(int keycode, void *param)
 {
 	if (keycode == XK_Escape)
-		ft_close_win(param);/*
-	if (keycode == XK_Left)
-		ft_adjust_offset(-10, 0, param);
-	if (keycode == XK_Right)
-		ft_adjust_offset(10, 0, param);
-	if (keycode == XK_Up)
-		ft_adjust_offset(0, -10, param);
-	if (keycode == XK_Down)
-		ft_adjust_offset(0, 10, param);
-	if (keycode == XK_equal)
-		ft_adjust_zoom(2, param);
-	if (keycode == XK_minus)
-		ft_adjust_zoom(0.5, param);
-	if (keycode == 'h' || keycode == 'j' || keycode == 'k'\
-		|| keycode == 'l' || keycode == 'u' || keycode == 'd')
-		ft_adjust_angle(keycode, param);*/
+		ft_close_win(param);
+	/* if (keycode == XK_Left) */
+	/* 	ft_adjust_offset(-10, 0, param); */
+	/* if (keycode == XK_Right) */
+	/* 	ft_adjust_offset(10, 0, param); */
+	/* if (keycode == XK_Up) */
+	/* 	ft_adjust_offset(0, -10, param); */
+	/* if (keycode == XK_Down) */
+	/* 	ft_adjust_offset(0, 10, param); */
+	/* if (keycode == XK_equal) */
+	/* 	ft_adjust_zoom(2, param); */
+	/* if (keycode == XK_minus) */
+	/* 	ft_adjust_zoom(0.5, param); */
+	/* if (keycode == 'h' || keycode == 'j' || keycode == 'k'\ */
+	/* 	|| keycode == 'l' || keycode == 'u' || keycode == 'd') */
+	/* 	ft_adjust_angle(keycode, param); */
 	return (0);
 }
