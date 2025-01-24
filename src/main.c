@@ -24,41 +24,6 @@ static void	minirt_init(t_rt *var_data, char *windowtitle)
 			&var_data->mlx.bpp, &var_data->mlx.line_len, &var_data->mlx.endian);
 }
 
-int	test_render(t_rt *var_data)
-{
-	int				x;
-	int				y;
-	t_shape			*tmp;
-
-	x = 0;
-	y = 0;
-	tmp = var_data->shapes;
-	while (tmp)
-	{
-		while (y <= WINDOWHEIGHT)
-		{
-			while (x <= WINDOWWIDTH)
-			{
-				if (tmp->type == SPHERE)
-					if ((tmp->shape.sphere.diameter / 2)
-						< sqrt((x - tmp->shape.sphere.pos.x)
-							* (x - tmp->shape.sphere.pos.x)
-							+ (y - tmp->shape.sphere.pos.x)
-							* (y - tmp->shape.sphere.pos.x)))
-						my_pixel_put(&var_data->mlx, x, y,
-							convert_color(tmp->shape.sphere.color));
-				/* else if (tmp->type == PLANE) */
-				/* else if (tmp->type == CYLINDER) */
-				x++;
-			}
-			x = 0;
-			y += 10;
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_rt	var_data;
@@ -77,6 +42,5 @@ int	main(int argc, char **argv)
 	mlx_hook(var_data.mlx.win, 2, 1L << 0, ft_keypress, &var_data);
 	mlx_put_image_to_window(var_data.mlx.mlx, var_data.mlx.win,
 		var_data.mlx.img, 0, 0);
-	/* test_render(&var_data); */
 	mlx_loop(var_data.mlx.mlx);
 }
