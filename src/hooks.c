@@ -26,60 +26,27 @@ int	ft_close_win(void *param)
 	exit (0);
 }
 
-/* static void	ft_adjust_offset(int x, int y, void	*param) */
-/* { */
-/* 	t_rt	*var_data; */
-/**/
-/* 	var_data = (t_rt*)param; */
-/* 	ft_put_new_img(var_data); */
-/* } */
-
-/*
-static void	ft_adjust_offset(int x, int y, void	*param)
+static void	ft_rotate_x_axis(void *param, double angle)
 {
-	t_fdf	*obj;
+	float	temp_y;
+	t_rt	*obj;
+	t_vector *cam_dir;
 
-	obj = (t_fdf *) param;
-	obj->x_offset += x;
-	obj->y_offset += y;
+	obj = (t_rt *)param;
+	cam_dir = &obj->camera.direction;
+	temp_y = cam_dir->y;
+	cam_dir->y = temp_y * cos(angle) + cam_dir->z * sin(angle);
+	cam_dir->z = temp_y * -sin(angle) + cam_dir->z * cos(angle);
+	render(obj);
 	ft_put_new_img(obj);
 }
 
-static void	ft_adjust_zoom(float offset, void *param)
-{
-	t_fdf	*obj;
-
-	obj = (t_fdf *) param;
-	obj->camera_zoom *= offset;
-	ft_put_new_img(obj);
-}
-
-static void	ft_adjust_angle(int keycode, void *param)
-{
-	t_fdf	*obj;
-
-	obj = (t_fdf *) param;
-	if (keycode == 'h')
-		obj->x_angle += 0.1;
-	if (keycode == 'l')
-		obj->x_angle += -0.1;
-	if (keycode == 'j')
-		obj->y_angle += 0.1;
-	if (keycode == 'k')
-		obj->y_angle += -0.1;
-	if (keycode == 'u')
-		obj->z_angle += 0.1;
-	if (keycode == 'd')
-		obj->z_angle += -0.1;
-	ft_put_new_img(obj);
-}
-*/
 int	ft_keypress(int keycode, void *param)
 {
 	if (keycode == XK_Escape)
 		ft_close_win(param);
-	/* if (keycode == XK_Left) */
-	/* 	ft_adjust_offset(-10, 0, param); */
+	if (keycode == XK_Left) 
+		ft_rotate_x_axis(param, 10);
 	/* if (keycode == XK_Right) */
 	/* 	ft_adjust_offset(10, 0, param); */
 	/* if (keycode == XK_Up) */
