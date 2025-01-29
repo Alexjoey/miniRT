@@ -168,9 +168,12 @@ void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
 void	make_cam_matrix(t_camera *camera);
 void	render(t_rt *obj);
 
-void	ft_left_rotate(void	*param);
-void	ft_right_rotate(void	*param);
-void	ft_up_rotate(void	*param);
-void	ft_down_rotate(void	*param);
+/* void	ft_left_rotate(void	*param); */
+/* void	ft_right_rotate(void	*param); */
+/* void	ft_up_rotate(void	*param); */
+/* void	ft_down_rotate(void	*param); */
+void	ft_rotate_x_axis(void *param, double angle);
+void	ft_rotate_y_axis(void *param, double angle);
+void	ft_adjust_zoom(void *param, float zoom_lvl);
 
 #endif 

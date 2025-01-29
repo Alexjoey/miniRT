@@ -14,6 +14,9 @@
 #include "vector/vector.h"
 #include <X11/keysym.h>
 
+#define ZOOM_IN 0.5
+#define ZOOM_OUT 1.5
+
 int	ft_close_win(void *param)
 {
 	t_rt	*obj;
@@ -27,35 +30,6 @@ int	ft_close_win(void *param)
 	exit (0);
 }
 
-static void	ft_rotate_x_axis(void *param, double angle)
-{
-	float	temp_y;
-	t_rt	*obj;
-	t_vector *cam_dir;
-
-	obj = (t_rt *)param;
-	cam_dir = &obj->camera.direction;
-	temp_y = cam_dir->y;
-	cam_dir->y = temp_y * cos(angle) + cam_dir->z * sin(angle);
-	cam_dir->z = temp_y * -sin(angle) + cam_dir->z * cos(angle);
-	*cam_dir = normalize_vector(*cam_dir);
-	ft_put_new_img(obj);
-}
-
-static void	ft_rotate_y_axis(void *param, double angle)
-{
-	float	temp_x;
-	t_rt	*obj;
-	t_vector *cam_dir;
-
-	obj = (t_rt *)param;
-	cam_dir = &obj->camera.direction;
-	temp_x = cam_dir->x;
-	cam_dir->x = temp_x * cos(angle) + cam_dir->z * sin(angle);
-	cam_dir->z = temp_x * -sin(angle) + cam_dir->z * cos(angle);
-	*cam_dir = normalize_vector(*cam_dir);
-	ft_put_new_img(obj);
-}
 
 int	ft_keypress(int keycode, void *param)
 {
@@ -69,18 +43,10 @@ int	ft_keypress(int keycode, void *param)
 		ft_rotate_x_axis(param, -10.0/180.0 * M_PI);
 	if (keycode == XK_Left)
 		ft_rotate_y_axis(param, -10.0/180.0 * M_PI);
-	// if (keycode == XK_Left)
-	// 	ft_left_rotate(param);
-	// if (keycode == XK_Right)
-	// 	ft_right_rotate(param);
-	// if (keycode == XK_Up)
-	// 	ft_up_rotate(param);
-	// if (keycode == XK_Down)
-	// 	ft_down_rotate(param);
-	/* if (keycode == XK_equal) */
-	/* 	ft_adjust_zoom(2, param); */
-	/* if (keycode == XK_minus) */
-	/* 	ft_adjust_zoom(0.5, param); */
+	if (keycode == XK_equal)
+		ft_adjust_zoom(param, ZOOM_IN);
+	if (keycode == XK_minus)
+		ft_adjust_zoom(param, ZOOM_OUT);
 	/* if (keycode == 'h' || keycode == 'j' || keycode == 'k'\ */
 	/* 	|| keycode == 'l' || keycode == 'u' || keycode == 'd') */
 	/* 	ft_adjust_angle(keycode, param); */
