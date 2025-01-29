@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
+#include "vector/vector.h"
 #include <unistd.h>
 
 static void	minirt_init(t_rt *var_data, char *windowtitle)

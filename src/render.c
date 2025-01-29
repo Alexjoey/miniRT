@@ -114,16 +114,14 @@ void	render(t_rt *obj)
     clock_t	start, end;
     double	cpu_time_used;
 	start = clock();
-
 	make_cam_matrix(&obj->camera);
 	cam_ray.origin = obj->camera.pos;
-	cam_ray.direction = set_vector(0.0, 0.0, 0.0);
 	y = 0;
 	while (y < WINDOWHEIGHT)
 	{
 		x = 0;
 		while (x < WINDOWWIDTH)
-		{
+	{
 			make_camera_ray(obj, x, y, &cam_ray.direction);
 			color = cast_ray(&cam_ray, obj);
 			my_pixel_put(&obj->mlx, x, y, color);

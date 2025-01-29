@@ -17,7 +17,7 @@ void	ft_put_new_img(t_rt *obj)
 	mlx_destroy_image(obj->mlx.mlx, obj->mlx.img);
 	obj->mlx.img = mlx_new_image(obj->mlx.mlx, WINDOWWIDTH, WINDOWHEIGHT);
 	mlx_clear_window(obj->mlx.mlx, obj->mlx.win);
-	//rerender here
+	render(obj);
 	mlx_put_image_to_window(obj->mlx.mlx, obj->mlx.win, obj->mlx.img, 0, 0);
 }
 
