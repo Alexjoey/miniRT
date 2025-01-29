@@ -47,14 +47,14 @@ t_vector	multiply_vector_matrix(t_vector vector, float m[4][4])
 }
 
 //have make_cam_matrix be somewhere better
-void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir)
+void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_ray_dir)
 {
 	t_camera	*cam;
 
 	cam = &obj->camera;
-	cam_dir->x = (2 * ((x + 0.5) / WINDOWWIDTH) - 1) * cam->scale * cam->ratio;
-	cam_dir->y = (1 - 2 * ((y + 0.5) / WINDOWHEIGHT)) * cam->scale;
-	cam_dir->z = 1.0;
-	*cam_dir = multiply_vector_matrix(*cam_dir, cam->cam_matrix);
-	*cam_dir = normalize_vector(*cam_dir);
+	cam_ray_dir->x = (2 * ((x + 0.5) / WINDOWWIDTH) - 1) * cam->scale * cam->ratio;
+	cam_ray_dir->y = (1 - 2 * ((y + 0.5) / WINDOWHEIGHT)) * cam->scale;
+	cam_ray_dir->z = 1.0;
+	*cam_ray_dir = multiply_vector_matrix(*cam_ray_dir, cam->cam_matrix);
+	*cam_ray_dir = normalize_vector(*cam_ray_dir);
 }

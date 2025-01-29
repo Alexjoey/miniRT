@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:43 by amylle            #+#    #+#             */
-/*   Updated: 2025/01/20 18:02:48 by amylle           ###   ########.fr       */
+/*   Updated: 2025/01/24 18:36:12 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_camera
 	float		scale;
 	float		ratio;
 	float		cam_matrix[4][4];
+	float		angle_updown;
+	float		angle_leftright;
 }				t_camera;
 
 //ambient light struct
@@ -165,4 +167,10 @@ bool	intersect(t_ray *ray, t_shape *shape, float *t);
 void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
 void	make_cam_matrix(t_camera *camera);
 void	render(t_rt *obj);
+
+void	ft_left_rotate(void	*param);
+void	ft_right_rotate(void	*param);
+void	ft_up_rotate(void	*param);
+void	ft_down_rotate(void	*param);
+
 #endif 
