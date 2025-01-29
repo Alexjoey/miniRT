@@ -27,6 +27,24 @@ int	ft_close_win(void *param)
 }
 
 static void	ft_rotate_x_axis(void *param, double angle)
+{
+	float	temp_y;
+	t_rt	*obj;
+	t_vector *cam_dir;
+
+	obj = (t_rt *)param;
+	cam_dir = &obj->camera.direction;
+	temp_y = cam_dir->y;
+	cam_dir->y = temp_y * cos(angle) + cam_dir->z * sin(angle);
+	cam_dir->z = temp_y * -sin(angle) + cam_dir->z * cos(angle);
+	render(obj);
+	ft_put_new_img(obj);
+}
+
+int	ft_keypress(int keycode, void *param)
+{
+	if (keycode == XK_Escape)
+		ft_close_win(param);
 	if (keycode == XK_Left) 
 		ft_rotate_x_axis(param, 10);
 	/* if (keycode == XK_Right) */
