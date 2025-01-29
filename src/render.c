@@ -15,8 +15,8 @@
 
 t_vector	calc_nhit_sphere(t_vector *phit, t_sphere *sphere)
 {
-	if (length_vector_squared(subtract_vector(*phit, sphere->pos)) < sphere->rad_sq)
-		return (multiply_vector(normalize_vector(subtract_vector(*phit, sphere->pos)), -1.0));
+/*	if (length_vector_squared(subtract_vector(*phit, sphere->pos)) < sphere->rad_sq)
+		return (multiply_vector(normalize_vector(subtract_vector(*phit, sphere->pos)), -1.0));*/
 	return (normalize_vector(subtract_vector(*phit, sphere->pos)));
 }
 
