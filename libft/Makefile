@@ -41,7 +41,7 @@ SRCS		= $(addprefix $(LIBFT_DIR)/, $(LIBFT_SRCS))\
 
 OBJS 		= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-CC			= clang
+CC			= cc
 RM			= rm -rf
 CFLAGS		= -Wall -Werror -Wextra -I$(INC_DIR)
 
@@ -65,7 +65,7 @@ comp_mes:
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 				@mkdir -p $(@D)
-				@$(CC) $(CFLAGS) -MJ $@.json -c $< -o $@
+				@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	comp_mes $(OBJS) 
 				@echo "$(BOLD_YELLOW)Making libft"

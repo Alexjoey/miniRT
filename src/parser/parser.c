@@ -202,7 +202,8 @@ int	parse_plane_args(t_shape *shape, char **args)
 		return (false);
 	if (length_vector(shape->shape.plane.direction) == 0)
 		return (ft_error("plane direction vector cant have length 0", NULL));
-	shape->shape.plane.direction = normalize_vector(shape->shape.plane.direction);
+	shape->shape.plane.direction = \
+		normalize_vector(shape->shape.plane.direction);
 	if (!parse_color(args[3], &shape->shape.plane.color))
 		return (false);
 	return (true);
@@ -237,7 +238,8 @@ int	parse_cylinder_args(t_cylinder *cylinder, char **args)
 	cylinder->direction = normalize_vector(cylinder->direction);
 	cylinder->diameter = ft_atof(args[3]);
 	cylinder->height = ft_atof(args[4]);
-	cylinder->base = subtract_vector(cylinder->pos, multiply_vector(cylinder->direction, cylinder->height * 0.5));
+	cylinder->base = subtract_vector(cylinder->pos, \
+				multiply_vector(cylinder->direction, cylinder->height * 0.5));
 	if (!parse_color(args[5], &cylinder->color))
 		return (false);
 	return (true);

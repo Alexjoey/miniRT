@@ -102,8 +102,8 @@ static bool	calc_hitpoint_sides(float *check_caps,
 	cyl->origin_perp_to_cylbase = subtract_vector(cyl->origin_to_cylbase,
 			multiply_vector(cyl->direction, dot_product(cyl->origin_to_cylbase,
 					cyl->direction)));
-	cylax_ray_perp = subtract_vector(ray->direction, multiply_vector(cyl->direction,
-			dot_product(ray->direction, cyl->direction)));
+	cylax_ray_perp = subtract_vector(ray->direction, multiply_vector(\
+				cyl->direction, dot_product(ray->direction, cyl->direction)));
 	discriminant = find_discriminant(cyl, cylax_ray_perp,
 			&tdarray[0], &tdarray[1]);
 	if (discriminant < -1e-6)
@@ -115,7 +115,8 @@ static bool	calc_hitpoint_sides(float *check_caps,
 	if (tdarray[0] > tdarray[1])
 		ft_swapf(&tdarray[0], &tdarray[1]);
 	*td = tdarray[0];
-	*check_caps = dot_product(add_vector(cyl->origin_to_cylbase, multiply_vector(ray->direction, *td)), cyl->direction);
+	*check_caps = dot_product(add_vector(cyl->origin_to_cylbase, \
+					multiply_vector(ray->direction, *td)), cyl->direction);
 	return (true);
 }
 
@@ -144,9 +145,7 @@ bool	intersect_cylinder(t_ray *ray, t_cylinder *cyl, float *t)
 				multiply_vector(cyl->direction, cyl->height)),
 			&cap_t2) && cap_t2 < *t)
 		*t = cap_t2;
-	if (td_valid == true || cap_t > 0 || cap_t2 > 0)
-		return (true);
-	return (false);
+	return (td_valid == true || cap_t > 0 || cap_t2 > 0);
 }
 
 bool	intersect_plane(t_ray *ray, t_plane *pl, float *t)
@@ -156,7 +155,8 @@ bool	intersect_plane(t_ray *ray, t_plane *pl, float *t)
 	denominator = dot_product(pl->direction, ray->direction);
 	if (fabs(denominator) > 1e-6)
 	{
-		*t = dot_product(subtract_vector(pl->pos, ray->origin), pl->direction) / denominator;
+		*t = dot_product(subtract_vector(pl->pos, ray->origin), pl->direction) \
+			/ denominator;
 		return (*t >= 0);
 	}
 	return (false);

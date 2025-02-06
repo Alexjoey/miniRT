@@ -147,39 +147,39 @@ typedef struct s_rt
 	t_shape			*shapes;
 }					t_rt;
 
-int		parse_file(t_rt	*obj, char *filename);
+int			parse_file(t_rt	*obj, char *filename);
 
-int		ft_error(char *str, char *filename);
-void	free_shapes(t_shape *shapes);
-void	my_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	ft_freestrarray(char **strarray);
-int		ft_atoi_base(char *num, char *base);
-int		ft_atoi_base(char *num, char *base);
-void	ft_put_new_img(t_rt *obj);
-int		ft_keypress(int keycode, void *param);
-int		ft_close_win(void *param);
+int			ft_error(char *str, char *filename);
+void		free_shapes(t_shape *shapes);
+void		my_pixel_put(t_mlx *mlx, int x, int y, int color);
+void		ft_freestrarray(char **strarray);
+int			ft_atoi_base(char *num, char *base);
+int			ft_atoi_base(char *num, char *base);
+void		ft_put_new_img(t_rt *obj);
+int			ft_keypress(int keycode, void *param);
+int			ft_close_win(void *param);
 
-int		ft_lerp(int start, int end, double percent);
-int		interpol_color(int scolor, int ecolor, double percent);
-t_color	set_color(int r, int g, int b);
-int		rgb_to_int(int r, int g, int b);
-int		convert_color(t_color color);
+int			ft_lerp(int start, int end, double percent);
+int			interpol_color(int scolor, int ecolor, double percent);
+t_color		set_color(int r, int g, int b);
+int			rgb_to_int(int r, int g, int b);
+int			convert_color(t_color color);
 
-bool	intersect(t_ray *ray, t_shape *shape, float *t);
+bool		intersect(t_ray *ray, t_shape *shape, float *t);
 t_vector	localize_cylinder_pos(t_vector pos);
 t_vector	localize_cylinder_direction(t_vector direction);
 
-void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
-void	make_cam_matrix(t_camera *camera);
-void	render(t_rt *obj);
+void		make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
+void		make_cam_matrix(t_camera *camera);
+void		render(t_rt *obj);
 t_vector	localize_cylinder_ray(t_vector ray);
 
 /* void	ft_left_rotate(void	*param); */
 /* void	ft_right_rotate(void	*param); */
 /* void	ft_up_rotate(void	*param); */
 /* void	ft_down_rotate(void	*param); */
-void	ft_rotate_x_axis(void *param, double angle);
-void	ft_rotate_y_axis(void *param, double angle);
-void	ft_adjust_zoom(void *param, float zoom_lvl);
+void		ft_rotate_x_axis(void *param, double angle);
+void		ft_rotate_y_axis(void *param, double angle);
+void		ft_adjust_zoom(void *param, float zoom_lvl);
 
 #endif 

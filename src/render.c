@@ -13,22 +13,24 @@
 #include "../inc/minirt.h"
 #include "vector/vector.h"
 
-t_vector	calc_nhit_sphere(t_vector *phit, t_sphere *sphere)
+t_vector	calc_nhit_sphere(t_vector *phit, t_sphere *sph, t_vector *ray_dir)
 {
-/*	if (length_vector_squared(subtract_vector(*phit, sphere->pos)) < sphere->rad_sq)
-		return (multiply_vector(normalize_vector(subtract_vector(*phit, sphere->pos)), -1.0));*/
-	return (normalize_vector(subtract_vector(*phit, sphere->pos)));
+	t_vector	nhit;
+
+	nhit = normalize_vector(subtract_vector(*phit, sph->pos));
+	if (dot_product(nhit, *ray_dir) >= 1e-6)
+		return (multiply_vector(nhit, -1));
+	return (nhit);
 }
 
-//this one aint right
-t_vector	calc_nhit_plane(t_light *light, t_plane *plane, t_vector *phit)
+t_vector	calc_nhit_plane(t_plane *plane, t_vector *ray_dir)
 {
-	if (dot_product(plane->direction, normalize_vector(subtract_vector(light->pos, *phit))) < 0)
-		return (multiply_vector(plane->direction, -1.0));
+	if (dot_product(plane->direction, *ray_dir) >= 1e-6)
+		return (multiply_vector(plane->direction, -1));
 	return (plane->direction);
 }
 
-t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_dir)
+t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_d)
 {
 	t_vector	phit_to_cylbase;
 	t_vector	normal;
@@ -43,18 +45,18 @@ t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_dir)
 	else
 		normal = normalize_vector(subtract_vector(*phit, add_vector(cyl->base,
 						multiply_vector(cyl->direction, base_to_phit_len))));
-	if (dot_product(normal, *ray_dir) >= 1e-6)
+	if (dot_product(normal, *ray_d) >= 1e-6)
 		normal = multiply_vector(normal, -1);
 	return (normal);
 }
 
 // need to do dotproduct shit for others
-t_vector	calc_nhit(t_light *light, t_vector *phit, t_shape *shape, t_vector *direction)
+t_vector	calc_nhit(t_vector *phit, t_shape *shape, t_vector *direction)
 {
 	if (shape->type == SPHERE)
-		return (calc_nhit_sphere(phit, &shape->shape.sphere));
+		return (calc_nhit_sphere(phit, &shape->shape.sphere, direction));
 	if (shape->type == PLANE)
-		return (calc_nhit_plane(light, &shape->shape.plane, phit));
+		return (calc_nhit_plane(&shape->shape.plane, direction));
 	if (shape->type == CYLINDER)
 		return (calc_nhit_cylinder(phit, &shape->shape.cylinder, direction));
 	return (set_vector(0, 0, 1));
@@ -89,8 +91,9 @@ int	trace_ray(t_ray *ray, t_rt *obj, t_hit *hit)
 	}
 	if (hit->shape)
 	{
-		hit->phit = add_vector(ray->origin, multiply_vector(ray->direction, hit->t));
-		hit->nhit = calc_nhit(&obj->light, &hit->phit, hit->shape, &ray->direction);
+		hit->phit = add_vector(ray->origin, \
+				multiply_vector(ray->direction, hit->t));
+		hit->nhit = calc_nhit(&hit->phit, hit->shape, &ray->direction);
 		hit->color = get_shape_color(hit->shape);
 		return (true);
 	}
@@ -102,18 +105,19 @@ int	cast_ray(t_ray *cam_ray, t_rt *obj)
 	t_hit		hit;
 	t_hit		shadow_hit;
 	float		dot_prod;
-	t_ray		shadow_ray;
+	t_ray		sha_ray;
 	float		tmp;
 
 	if (trace_ray(cam_ray, obj, &hit))
 	{
-		shadow_ray.direction = normalize_vector(subtract_vector(obj->light.pos, hit.phit));
-		dot_prod = dot_product(hit.nhit, shadow_ray.direction);
+		sha_ray.direction = normalize_vector(\
+					subtract_vector(obj->light.pos, hit.phit));
+		dot_prod = dot_product(hit.nhit, sha_ray.direction);
 		if (dot_prod < 0)
 			return (0);
-		shadow_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.03));
+		sha_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.001));
 		tmp = length_vector(subtract_vector(obj->light.pos, hit.phit));
-		if (!trace_ray(&shadow_ray, obj, &shadow_hit) && shadow_hit.t > tmp)
+		if (!trace_ray(&sha_ray, obj, &shadow_hit) && shadow_hit.t > tmp)
 		{
 			hit.color.r *= obj->light.brightness * dot_prod;
 			hit.color.g *= obj->light.brightness * dot_prod;
