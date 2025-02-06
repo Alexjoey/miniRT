@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:43 by amylle            #+#    #+#             */
-/*   Updated: 2025/01/24 18:36:12 by bclaeys          ###   ########.fr       */
+/*   Updated: 2025/02/06 13:12:30 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_color		color;
+	t_vector	base;
+	t_vector	origin_to_cylbase;
+	t_vector	origin_perp_to_cylbase;
 }				t_cylinder;
 
 typedef union s_shape_union
@@ -163,10 +166,13 @@ int		rgb_to_int(int r, int g, int b);
 int		convert_color(t_color color);
 
 bool	intersect(t_ray *ray, t_shape *shape, float *t);
+t_vector	localize_cylinder_pos(t_vector pos);
+t_vector	localize_cylinder_direction(t_vector direction);
 
 void	make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
 void	make_cam_matrix(t_camera *camera);
 void	render(t_rt *obj);
+t_vector	localize_cylinder_ray(t_vector ray);
 
 /* void	ft_left_rotate(void	*param); */
 /* void	ft_right_rotate(void	*param); */

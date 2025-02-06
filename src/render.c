@@ -6,7 +6,7 @@
 /*   By: amylle <alexm@live.be>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:01:49 by amylle            #+#    #+#             */
-/*   Updated: 2025/01/20 18:01:49 by amylle           ###   ########.fr       */
+/*   Updated: 2025/02/06 13:12:09 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,35 @@ t_vector	calc_nhit_plane(t_light *light, t_plane *plane, t_vector *phit)
 	return (plane->direction);
 }
 
-t_vector	calc_nhit(t_light *light, t_vector *phit, t_shape *shape)
+
+t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_dir)
+{
+	t_vector	phit_to_cylbase;
+	t_vector	normal;
+	float	base_to_phit_len;
+
+	phit_to_cylbase = subtract_vector(*phit, cyl->base);
+	base_to_phit_len = dot_product(phit_to_cylbase, cyl->direction);
+	if (fabs(base_to_phit_len) <= 1e-6)
+		normal = normalize_vector(multiply_vector(cyl->direction, -1));
+	else if (fabs(base_to_phit_len - cyl->height) <= 1e-6)
+		normal = cyl->direction;
+	else
+		normal = normalize_vector(subtract_vector(*phit, add_vector(cyl->base, 
+						multiply_vector(cyl->direction, base_to_phit_len))));
+	if (dot_product(normal, *ray_dir) <= 1e-6)
+		multiply_vector(normal, -1);
+	return (normal);	
+}
+
+t_vector	calc_nhit(t_light *light, t_vector *phit, t_shape *shape, t_vector *direction)
 {
 	if (shape->type == SPHERE)
 		return (calc_nhit_sphere(phit, &shape->shape.sphere));
 	if (shape->type == PLANE)
 		return (calc_nhit_plane(light, &shape->shape.plane, phit));
-	/*if (shape->type == SPHERE)
-		return (calc_nhit_sphere(phit, shape));*/
+	if (shape->type == CYLINDER)
+		return (calc_nhit_cylinder(phit, &shape->shape.cylinder, direction));
 	return (set_vector(0, 0, 1));
 }
 
@@ -68,7 +89,7 @@ int	trace_ray(t_ray *ray, t_rt *obj, t_hit *hit)
 	if (hit->shape)
 	{
 		hit->phit = add_vector(ray->origin, multiply_vector(ray->direction, hit->t));
-		hit->nhit = calc_nhit(&obj->light, &hit->phit, hit->shape);
+		hit->nhit = calc_nhit(&obj->light, &hit->phit, hit->shape, &ray->direction);
 		hit->color = get_shape_color(hit->shape);
 		return (true);
 	}
@@ -110,9 +131,10 @@ void	render(t_rt *obj)
 	int		x;
 	int		color;
 	t_ray	cam_ray;
-
-    clock_t	start, end;
+    clock_t	start; 
+	clock_t	end;
     double	cpu_time_used;
+
 	start = clock();
 	make_cam_matrix(&obj->camera);
 	cam_ray.origin = obj->camera.pos;

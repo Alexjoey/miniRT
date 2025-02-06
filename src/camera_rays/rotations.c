@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../../inc/minirt.h"
 
 void	ft_rotate_x_axis(void *param, double angle)
 {
@@ -53,6 +53,7 @@ void	ft_adjust_zoom(void *param, float zoom_lvl)
 	*cam_dir = normalize_vector(*cam_dir);
 	ft_put_new_img(obj);
 }
+
 /* static void	set_basis_vectors(t_vector *x_basis, */
 /* 							t_vector *y_basis, */
 /* 							t_vector *z_basis, */

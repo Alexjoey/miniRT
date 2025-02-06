@@ -6,7 +6,7 @@
 /*   By: amylle <alexm@live.be>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:13:28 by amylle            #+#    #+#             */
-/*   Updated: 2025/01/10 18:19:28 by amylle           ###   ########.fr       */
+/*   Updated: 2025/02/06 12:56:36 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ int	parse_cylinder_args(t_cylinder *cylinder, char **args)
 	cylinder->direction = normalize_vector(cylinder->direction);
 	cylinder->diameter = ft_atof(args[3]);
 	cylinder->height = ft_atof(args[4]);
+	cylinder->base = subtract_vector(cylinder->pos, multiply_vector(cylinder->direction, cylinder->height * 0.5));
 	if (!parse_color(args[5], &cylinder->color))
 		return (false);
 	return (true);
@@ -253,6 +254,7 @@ int	parse_cylinder(t_rt *obj, char *line, char **args)
 		return (ft_error("calloc error making a shape", NULL));
 	shapeadd_back(&obj->shapes, shape);
 	if (!parse_cylinder_args(&shape->shape.cylinder, args))
+
 		return (false);
 	shape->type = CYLINDER;
 	return (true);

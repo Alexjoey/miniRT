@@ -24,6 +24,7 @@ t_vector	set_vector(float x, float y, float z);
 t_vector	add_vector(t_vector a, t_vector b);
 t_vector	subtract_vector(t_vector a, t_vector b);
 t_vector	multiply_vector(t_vector a, float scalar);
+t_vector	divide_vector(t_vector a, float scalar);
 
 t_vector	normalize_vector(t_vector a);
 float		dot_product(t_vector a, t_vector b);

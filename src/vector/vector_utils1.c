@@ -32,6 +32,11 @@ t_vector	multiply_vector(t_vector a, float scalar)
 	return ((t_vector){a.x * scalar, a.y * scalar, a.z * scalar});
 }
 
+t_vector	divide_vector(t_vector a, float scalar)
+{
+	return ((t_vector){a.x / scalar, a.y / scalar, a.z / scalar});
+}
+
 //makes a normalized vector, a vector with same direction as a, but with len 1
 //will return error if a has length 0
 t_vector	normalize_vector(t_vector a)

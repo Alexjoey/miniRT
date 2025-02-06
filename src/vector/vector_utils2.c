@@ -38,3 +38,4 @@ float	length_vector(t_vector a)
 {
 	return (sqrtf(length_vector_squared(a)));
 }
+
