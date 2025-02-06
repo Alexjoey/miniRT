@@ -240,6 +240,7 @@ int	parse_cylinder_args(t_cylinder *cylinder, char **args)
 	cylinder->height = ft_atof(args[4]);
 	cylinder->base = subtract_vector(cylinder->pos, \
 				multiply_vector(cylinder->direction, cylinder->height * 0.5));
+	cylinder->rad_sq = powf(cylinder->diameter * 0.5, 2);
 	if (!parse_color(args[5], &cylinder->color))
 		return (false);
 	return (true);

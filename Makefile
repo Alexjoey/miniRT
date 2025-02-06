@@ -24,7 +24,7 @@ OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 CC		= clang
 CFLAGS	= -Wextra -Wall -Werror -g
 DEBUG_FLAGS= #-fsanitize=address -fsanitize=undefined -fsanitize=bounds -fsanitize=null
-INCLUDE	= -Llibft -lft -I$(INC_DIR) -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
+INCLUDE	= -Llibft -lft -I$(INC_DIR) -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz -o2
 RM		= rm -rf
 LIBFT	= libft/libft.a
 MAKEFLAGS += --no-print-directory

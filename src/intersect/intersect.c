@@ -60,9 +60,8 @@ bool	intersect_circle(t_ray *ray, t_cylinder *cyl, t_vector cylpos, float *t)
 	{
 		*t = dot_product(subtract_vector(cylpos, ray->origin), cyl->direction)
 			/ denominator;
-		return ((length_vector_squared(subtract_vector(add_vector(ray->origin,
-							multiply_vector(ray->direction, *t)), cylpos)))
-			< pow(cyl->diameter * 0.5, 2) && *t > 1e-6);
+		return ((length_vector_squared(subtract_vector(add_vector(ray->origin, \
+				multiply_vector(ray->direction, *t)), cylpos))) < cyl->rad_sq);
 	}
 	return (false);
 }
@@ -80,8 +79,7 @@ static double	find_discriminant(t_cylinder *cyl,
 
 	a = length_vector_squared(cylax_ray_perp);
 	b = dot_product(cylax_ray_perp, cyl->origin_perp_to_cylbase) * 2.0;
-	c = length_vector_squared(cyl->origin_perp_to_cylbase)
-		- pow(cyl->diameter * 0.5, 2);
+	c = length_vector_squared(cyl->origin_perp_to_cylbase) - cyl->rad_sq;
 	discriminant = pow(b, 2) - 4 * a * c;
 	*tdarray0 = (-b - sqrt(discriminant)) / (2 * a);
 	*tdarray1 = (-b + sqrt(discriminant)) / (2 * a);

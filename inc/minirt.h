@@ -111,6 +111,7 @@ typedef struct s_cylinder
 	t_vector	base;
 	t_vector	origin_to_cylbase;
 	t_vector	origin_perp_to_cylbase;
+	float		rad_sq;
 }				t_cylinder;
 
 typedef union s_shape_union
