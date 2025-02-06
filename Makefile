@@ -80,6 +80,6 @@ fclean:
 				@make clean -C ./mlx
 
 test:		$(NAME)
-				./$(NAME) test.rt
+				./$(NAME) test4.rt
 
 re:			fclean all

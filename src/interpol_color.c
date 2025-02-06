@@ -31,9 +31,9 @@ int	interpol_color(int scolor, int ecolor, double percent)
 	return ((r << 16) | (g << 8) | b);
 }
 
-int	convert_color(t_color color)
+int	convert_color(t_color c)
 {
-	return (((color.r & 0xFF) << 16) | ((color.g & 0xff) << 8) | (color.b & 0xFF));
+	return (((c.r & 0xFF) << 16) | ((c.g & 0xff) << 8) | (c.b & 0xFF));
 }
 
 //no checking here if its valid

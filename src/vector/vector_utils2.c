@@ -39,3 +39,12 @@ float	length_vector(t_vector a)
 	return (sqrtf(length_vector_squared(a)));
 }
 
+//makes a normalized vector, a vector with same direction as a, but with len 1
+//will return error if a has length 0
+t_vector	normalize_vector(t_vector a)
+{
+	float		length;
+
+	length = length_vector(a);
+	return ((t_vector){a.x / length, a.y / length, a.z / length});
+}

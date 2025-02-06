@@ -254,7 +254,6 @@ int	parse_cylinder(t_rt *obj, char *line, char **args)
 		return (ft_error("calloc error making a shape", NULL));
 	shapeadd_back(&obj->shapes, shape);
 	if (!parse_cylinder_args(&shape->shape.cylinder, args))
-
 		return (false);
 	shape->type = CYLINDER;
 	return (true);

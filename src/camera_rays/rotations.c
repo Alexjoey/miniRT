@@ -14,9 +14,9 @@
 
 void	ft_rotate_x_axis(void *param, double angle)
 {
-	float	temp_y;
-	t_rt	*obj;
-	t_vector *cam_dir;
+	float		temp_y;
+	t_rt		*obj;
+	t_vector	*cam_dir;
 
 	obj = (t_rt *)param;
 	cam_dir = &obj->camera.direction;
@@ -29,9 +29,9 @@ void	ft_rotate_x_axis(void *param, double angle)
 
 void	ft_rotate_y_axis(void *param, double angle)
 {
-	float	temp_x;
-	t_rt	*obj;
-	t_vector *cam_dir;
+	float		temp_x;
+	t_rt		*obj;
+	t_vector	*cam_dir;
 
 	obj = (t_rt *)param;
 	cam_dir = &obj->camera.direction;
@@ -44,8 +44,8 @@ void	ft_rotate_y_axis(void *param, double angle)
 
 void	ft_adjust_zoom(void *param, float zoom_lvl)
 {
-	t_rt	*obj;
-	t_vector *cam_dir;
+	t_rt		*obj;
+	t_vector	*cam_dir;
 
 	obj = (t_rt *)param;
 	obj->camera.scale *= zoom_lvl;

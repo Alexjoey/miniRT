@@ -20,6 +20,7 @@ t_vector	calc_nhit_sphere(t_vector *phit, t_sphere *sphere)
 	return (normalize_vector(subtract_vector(*phit, sphere->pos)));
 }
 
+//this one aint right
 t_vector	calc_nhit_plane(t_light *light, t_plane *plane, t_vector *phit)
 {
 	if (dot_product(plane->direction, normalize_vector(subtract_vector(light->pos, *phit))) < 0)
@@ -27,27 +28,27 @@ t_vector	calc_nhit_plane(t_light *light, t_plane *plane, t_vector *phit)
 	return (plane->direction);
 }
 
-
 t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_dir)
 {
 	t_vector	phit_to_cylbase;
 	t_vector	normal;
-	float	base_to_phit_len;
+	float		base_to_phit_len;
 
 	phit_to_cylbase = subtract_vector(*phit, cyl->base);
 	base_to_phit_len = dot_product(phit_to_cylbase, cyl->direction);
 	if (fabs(base_to_phit_len) <= 1e-6)
-		normal = normalize_vector(multiply_vector(cyl->direction, -1));
+		normal = cyl->direction;
 	else if (fabs(base_to_phit_len - cyl->height) <= 1e-6)
 		normal = cyl->direction;
 	else
-		normal = normalize_vector(subtract_vector(*phit, add_vector(cyl->base, 
+		normal = normalize_vector(subtract_vector(*phit, add_vector(cyl->base,
 						multiply_vector(cyl->direction, base_to_phit_len))));
-	if (dot_product(normal, *ray_dir) <= 1e-6)
-		multiply_vector(normal, -1);
-	return (normal);	
+	if (dot_product(normal, *ray_dir) >= 1e-6)
+		normal = multiply_vector(normal, -1);
+	return (normal);
 }
 
+// need to do dotproduct shit for others
 t_vector	calc_nhit(t_light *light, t_vector *phit, t_shape *shape, t_vector *direction)
 {
 	if (shape->type == SPHERE)
@@ -110,7 +111,7 @@ int	cast_ray(t_ray *cam_ray, t_rt *obj)
 		dot_prod = dot_product(hit.nhit, shadow_ray.direction);
 		if (dot_prod < 0)
 			return (0);
-		shadow_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.01));
+		shadow_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.03));
 		tmp = length_vector(subtract_vector(obj->light.pos, hit.phit));
 		if (!trace_ray(&shadow_ray, obj, &shadow_hit) && shadow_hit.t > tmp)
 		{
@@ -123,19 +124,13 @@ int	cast_ray(t_ray *cam_ray, t_rt *obj)
 	return (0);
 }
 
-#include <time.h>
-
 void	render(t_rt *obj)
 {
 	int		y;
 	int		x;
 	int		color;
 	t_ray	cam_ray;
-    clock_t	start; 
-	clock_t	end;
-    double	cpu_time_used;
 
-	start = clock();
 	make_cam_matrix(&obj->camera);
 	cam_ray.origin = obj->camera.pos;
 	y = 0;
@@ -143,7 +138,7 @@ void	render(t_rt *obj)
 	{
 		x = 0;
 		while (x < WINDOWWIDTH)
-	{
+		{
 			make_camera_ray(obj, x, y, &cam_ray.direction);
 			color = cast_ray(&cam_ray, obj);
 			my_pixel_put(&obj->mlx, x, y, color);
@@ -151,7 +146,4 @@ void	render(t_rt *obj)
 		}
 		y++;
 	}
-	end = clock();
-	cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
-	printf("Time taken by function: %f seconds\n", cpu_time_used);
 }

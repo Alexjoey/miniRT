@@ -23,15 +23,6 @@ void	ft_swapf(float *nptr1, float *nptr2)
 	*nptr2 = tmp;
 }
 
-void	recalc_sphere_cache(t_vector *c_pos, t_sphere *sph)
-{
-	sph->l_cache = subtract_vector(sph->pos, *c_pos);
-	sph->cache_valid = true;
-}
-
-//reminder to set sph->cache_valid to false
-//whenever sph->pos or camera_pos change
-//idk what to do w sphere_cache for now
 bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 {
 	t_vector	l;
@@ -40,8 +31,6 @@ bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 	float		thc;
 	float		d2;
 
-//	if (sph->cache_valid == false)
-//		recalc_sphere_cache(&ray->origin, sph);
 	l = subtract_vector(sph->pos, ray->origin);
 	tca = dot_product(l, ray->direction);
 	if (tca < 0)
@@ -52,8 +41,6 @@ bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 	thc = sqrtf(sph->rad_sq - d2);
 	td[0] = tca - thc;
 	td[1] = tca + thc;
-	if (td[0] > td[1])
-		ft_swapf(&td[0], &td[1]);
 	if (td[0] < 1e-6)
 		td[0] = td[1];
 	if (td[0] < 1e-6)
@@ -62,6 +49,8 @@ bool	intersect_sphere(t_ray *ray, t_sphere *sph, float *t)
 	return (true);
 }
 
+// same here, save rad^2
+// also jesus christ can we just use the other /
 bool	intersect_circle(t_ray *ray, t_cylinder *cyl, t_vector cylpos, float *t)
 {
 	float	denominator;
@@ -71,34 +60,36 @@ bool	intersect_circle(t_ray *ray, t_cylinder *cyl, t_vector cylpos, float *t)
 	{
 		*t = dot_product(subtract_vector(cylpos, ray->origin), cyl->direction)
 			/ denominator;
-		return ((length_vector_squared(subtract_vector(add_vector(ray->origin, 
-				multiply_vector(ray->direction, *t)), cylpos))) 
-				< pow(cyl->diameter * 0.5, 2));
+		return ((length_vector_squared(subtract_vector(add_vector(ray->origin,
+							multiply_vector(ray->direction, *t)), cylpos)))
+			< pow(cyl->diameter * 0.5, 2) && *t > 1e-6);
 	}
 	return (false);
 }
 
+//need to at least save rad^2
 static double	find_discriminant(t_cylinder *cyl,
 								t_vector cylax_ray_perp,
 								float *tdarray0,
 								float *tdarray1)
 {
-	double 		a;
-	double 		b;
-	double 		c;
-	double		discriminant;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
 
 	a = length_vector_squared(cylax_ray_perp);
 	b = dot_product(cylax_ray_perp, cyl->origin_perp_to_cylbase) * 2.0;
-	c = length_vector_squared(cyl->origin_perp_to_cylbase) 
+	c = length_vector_squared(cyl->origin_perp_to_cylbase)
 		- pow(cyl->diameter * 0.5, 2);
-	discriminant = pow(b, 2) - 4 * a * c;	
+	discriminant = pow(b, 2) - 4 * a * c;
 	*tdarray0 = (-b - sqrt(discriminant)) / (2 * a);
 	*tdarray1 = (-b + sqrt(discriminant)) / (2 * a);
 	return (discriminant);
 }
 
-static bool	calc_hitpoint_sides(float *check_caps, 
+//is this swapf actully needed
+static bool	calc_hitpoint_sides(float *check_caps,
 								float *td,
 								t_cylinder *cyl,
 								t_ray *ray)
@@ -108,12 +99,12 @@ static bool	calc_hitpoint_sides(float *check_caps,
 	double		discriminant;
 
 	cyl->origin_to_cylbase = subtract_vector(ray->origin, cyl->base);
-	cyl->origin_perp_to_cylbase = subtract_vector(cyl->origin_to_cylbase, 
-			multiply_vector(cyl->direction, dot_product(cyl->origin_to_cylbase, 
-			cyl->direction)));
-	cylax_ray_perp = subtract_vector(ray->direction, multiply_vector(cyl->direction, 
+	cyl->origin_perp_to_cylbase = subtract_vector(cyl->origin_to_cylbase,
+			multiply_vector(cyl->direction, dot_product(cyl->origin_to_cylbase,
+					cyl->direction)));
+	cylax_ray_perp = subtract_vector(ray->direction, multiply_vector(cyl->direction,
 			dot_product(ray->direction, cyl->direction)));
-	discriminant = find_discriminant(cyl, cylax_ray_perp, 
+	discriminant = find_discriminant(cyl, cylax_ray_perp,
 			&tdarray[0], &tdarray[1]);
 	if (discriminant < -1e-6)
 		return (false);
@@ -131,33 +122,31 @@ static bool	calc_hitpoint_sides(float *check_caps,
 bool	intersect_cylinder(t_ray *ray, t_cylinder *cyl, float *t)
 {
 	float		td;
-	float		cap_hit;
-	float		cap_hit2;
+	float		cap_t;
+	float		cap_t2;
 	float		check_caps;
+	bool		td_valid;
 
-	cap_hit2 = 0;
+	cap_t2 = 0;
+	cap_t = 0;
+	*t = INFINITY;
+	td_valid = false;
 	if (!calc_hitpoint_sides(&check_caps, &td, cyl, ray))
 		return (*t = -1, false);
-	if ((intersect_circle(ray, cyl, cyl->base, &cap_hit) && cap_hit > 1e-6) 
-			|| (intersect_circle(ray, cyl, add_vector(cyl->base, 
-		multiply_vector(cyl->direction, cyl->height)), 
-		&cap_hit2) && cap_hit2 > 1e-6))
+	if ((td > 1e-6 && check_caps > 1e-6 && check_caps < cyl->height + 1e-6))
 	{
-		if (cap_hit < cap_hit2)
-			*t = cap_hit;
-		else
-			*t = cap_hit2;
-		return (true);
+		td_valid = true;
+		*t = td;
 	}
-	if (!(td > -1e-6 && check_caps > -1e-6 && check_caps < cyl->height + 1e-6))
-		return (*t = -1, false);
-	return (*t = td, true);
-}
-
-void	recalc_plane_cache(t_vector *ray_origin, t_plane *pl)
-{
-	pl->numerator_cache = dot_product(subtract_vector(pl->pos, *ray_origin), pl->direction);
-	pl->cache_valid = true;
+	if (intersect_circle(ray, cyl, cyl->base, &cap_t) && cap_t < *t)
+		*t = cap_t;
+	if (intersect_circle(ray, cyl, add_vector(cyl->base,
+				multiply_vector(cyl->direction, cyl->height)),
+			&cap_t2) && cap_t2 < *t)
+		*t = cap_t2;
+	if (td_valid == true || cap_t > 0 || cap_t2 > 0)
+		return (true);
+	return (false);
 }
 
 bool	intersect_plane(t_ray *ray, t_plane *pl, float *t)
@@ -167,13 +156,8 @@ bool	intersect_plane(t_ray *ray, t_plane *pl, float *t)
 	denominator = dot_product(pl->direction, ray->direction);
 	if (fabs(denominator) > 1e-6)
 	{
-	/*	if (pl->cache_valid == false)
-			recalc_plane_cache(&ray->origin, pl);*/
 		*t = dot_product(subtract_vector(pl->pos, ray->origin), pl->direction) / denominator;
 		return (*t >= 0);
-		/* return ((length_vector_squared(subtract_vector(add_vector(ray->origin,  */
-		/* 		multiply_vector(ray->direction, *t)), pl->pos)))  */
-				/* < pow(30 * 0.5, 2)); */
 	}
 	return (false);
 }
@@ -185,6 +169,6 @@ bool	intersect(t_ray *ray, t_shape *shape, float *t)
 	if (shape->type == PLANE)
 		return (intersect_plane(ray, &shape->shape.plane, t));
 	if (shape->type == CYLINDER)
- 		return (intersect_cylinder(ray, &shape->shape.cylinder, t));
+		return (intersect_cylinder(ray, &shape->shape.cylinder, t));
 	return (false);
 }

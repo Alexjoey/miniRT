@@ -30,25 +30,21 @@ int	ft_close_win(void *param)
 	exit (0);
 }
 
-
 int	ft_keypress(int keycode, void *param)
 {
 	if (keycode == XK_Escape)
 		ft_close_win(param);
-	if (keycode == XK_Up) 
-		ft_rotate_x_axis(param, 10.0/180.0 * M_PI);
+	if (keycode == XK_Up)
+		ft_rotate_x_axis(param, 10.0 / 180.0 * M_PI);
 	if (keycode == XK_Right)
-		ft_rotate_y_axis(param, 10.0/180.0 * M_PI);
-	if (keycode == XK_Down) 
-		ft_rotate_x_axis(param, -10.0/180.0 * M_PI);
+		ft_rotate_y_axis(param, 10.0 / 180.0 * M_PI);
+	if (keycode == XK_Down)
+		ft_rotate_x_axis(param, -10.0 / 180.0 * M_PI);
 	if (keycode == XK_Left)
-		ft_rotate_y_axis(param, -10.0/180.0 * M_PI);
+		ft_rotate_y_axis(param, -10.0 / 180.0 * M_PI);
 	if (keycode == XK_equal)
 		ft_adjust_zoom(param, ZOOM_IN);
 	if (keycode == XK_minus)
 		ft_adjust_zoom(param, ZOOM_OUT);
-	/* if (keycode == 'h' || keycode == 'j' || keycode == 'k'\ */
-	/* 	|| keycode == 'l' || keycode == 'u' || keycode == 'd') */
-	/* 	ft_adjust_angle(keycode, param); */
 	return (0);
 }
