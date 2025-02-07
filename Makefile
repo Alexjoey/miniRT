@@ -22,7 +22,7 @@ SRC	= ./src/main.c ./src/error.c ./src/hooks.c ./src/utils.c \
 	  ./src/intersect/intersect.c src/camera_rays/rotations.c \
 	  ./src/intersect/cylinder_intersect.c ./src/parser/parse_color.c \
 	  ./src/parser/parse_camera_and_light.c ./src/parser/parse_cylinder.c \
-	  ./src/parser/parse_sphere_plane.c
+	  ./src/parser/parse_sphere_plane.c ./src/color_and_ambient.c
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 CC		= clang
 CFLAGS	= -Wextra -Wall -Werror -g

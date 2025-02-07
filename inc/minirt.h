@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:43 by amylle            #+#    #+#             */
-/*   Updated: 2025/02/07 14:51:41 by bclaeys          ###   ########.fr       */
+/*   Updated: 2025/02/07 18:38:18 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,9 @@ int			interpol_color(int scolor, int ecolor, double percent);
 t_color		set_color(int r, int g, int b);
 int			rgb_to_int(int r, int g, int b);
 int			convert_color(t_color color);
+int			add_color(t_hit *hit, float operatee,
+				t_color orig_col, char operator);
+void		cap_ambient(t_hit *hit);
 
 bool		intersect(t_ray *ray, t_shape *shape, float *t);
 void		ft_swapf(float *nptr1, float *nptr2);

@@ -69,11 +69,11 @@ static bool	calc_hitpoint_sides(float *check_caps,
 				cyl->direction, dot_product(ray->direction, cyl->direction)));
 	discriminant = find_discriminant(cyl, cylax_ray_perp,
 			&tdarray[0], &tdarray[1]);
-	if (discriminant < -1e-6)
+	if (discriminant < 0)
 		return (false);
 	if (tdarray[0] < 1e-6)
 		tdarray[0] = tdarray[1];
-	if (tdarray[0] < -1e-6 && tdarray[1] < -1e-6)
+	if (tdarray[0] < 1e-6 && tdarray[1] < 1e-6)
 		return (false);
 	if (tdarray[0] > tdarray[1])
 		ft_swapf(&tdarray[0], &tdarray[1]);

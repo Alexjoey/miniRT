@@ -6,7 +6,7 @@
 /*   By: amylle <alexm@live.be>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:01:49 by amylle            #+#    #+#             */
-/*   Updated: 2025/02/07 14:29:36 by bclaeys          ###   ########.fr       */
+/*   Updated: 2025/02/07 18:38:20 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,27 @@ int	cast_ray(t_ray *cam_ray, t_rt *obj)
 	t_hit		shadow_hit;
 	float		dot_prod;
 	t_ray		sha_ray;
-	float		tmp;
+	t_color		orig_col;
 
-	if (trace_ray(cam_ray, obj, &hit))
+	if (!(trace_ray(cam_ray, obj, &hit)))
+		return (0);
+	orig_col = hit.color;
+	sha_ray.direction = normalize_vector(\
+				subtract_vector(obj->light.pos, hit.phit));
+	dot_prod = dot_product(hit.nhit, sha_ray.direction);
+	if (dot_prod < 0)
+		return (add_color(&hit, obj->ambient.ratio, orig_col, '*'),
+			convert_color(hit.color));
+	sha_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.001));
+	if (!trace_ray(&sha_ray, obj, &shadow_hit) || shadow_hit.t
+		> length_vector(subtract_vector(obj->light.pos, hit.phit)))
 	{
-		sha_ray.direction = normalize_vector(\
-					subtract_vector(obj->light.pos, hit.phit));
-		dot_prod = dot_product(hit.nhit, sha_ray.direction);
-		if (dot_prod < 0)
-			return (0);
-		sha_ray.origin = add_vector(hit.phit, multiply_vector(hit.nhit, 0.001));
-		tmp = length_vector(subtract_vector(obj->light.pos, hit.phit));
-		if (!trace_ray(&sha_ray, obj, &shadow_hit) && shadow_hit.t > tmp)
-		{
-			hit.color.r *= obj->light.brightness * dot_prod;
-			hit.color.g *= obj->light.brightness * dot_prod;
-			hit.color.b *= obj->light.brightness * dot_prod;
-			return (convert_color(hit.color));
-		}
+		add_color(&hit, obj->light.brightness * dot_prod, orig_col, '*');
+		add_color(&hit, obj->ambient.ratio, orig_col, '+');
 	}
-	return (0);
+	else
+		add_color(&hit, obj->ambient.ratio, orig_col, '*');
+	return (cap_ambient(&hit), convert_color(hit.color));
 }
 
 void	render(t_rt *obj)

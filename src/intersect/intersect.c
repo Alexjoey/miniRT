@@ -58,7 +58,7 @@ bool	intersect_plane(t_ray *ray, t_plane *pl, float *t)
 	{
 		*t = dot_product(subtract_vector(pl->pos, ray->origin), pl->direction) \
 			/ denominator;
-		return (*t >= 0);
+		return (*t >= 1e-6);
 	}
 	return (false);
 }

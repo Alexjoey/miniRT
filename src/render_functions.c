@@ -56,9 +56,9 @@ t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_d)
 
 	phit_to_cylbase = subtract_vector(*phit, cyl->base);
 	base_to_phit_len = dot_product(phit_to_cylbase, cyl->direction);
-	if (fabs(base_to_phit_len) <= 1e-6)
+	if (fabs(base_to_phit_len) <= 1e-4)
 		normal = cyl->direction;
-	else if (fabs(base_to_phit_len - cyl->height) <= 1e-6)
+	else if (fabs(base_to_phit_len - cyl->height) <= 1e-4)
 		normal = cyl->direction;
 	else
 		normal = normalize_vector(subtract_vector(*phit, add_vector(cyl->base,
