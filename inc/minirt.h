@@ -6,7 +6,7 @@
 /*   By: amylle <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:43 by amylle            #+#    #+#             */
-/*   Updated: 2025/02/06 13:12:30 by bclaeys          ###   ########.fr       */
+/*   Updated: 2025/02/07 14:51:41 by bclaeys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,16 @@ typedef struct s_rt
 }					t_rt;
 
 int			parse_file(t_rt	*obj, char *filename);
+int			parse_vector(char *str, t_vector *vec);
+int			parse_color(char *str, t_color *col);
+int			parse_sphere(t_rt *obj, char *line, char **args);
+int			parse_plane(t_rt *obj, char *line, char **args);
+int			parse_cylinder(t_rt *obj, char *line, char **args);
+int			parse_ambient(t_rt *obj, char *line, char **args);
+int			parse_camera(t_rt *obj, char *line, char **args);
+int			parse_light(t_rt *obj, char *line, char **args);
+int			parse_ratio(char *str, float *ra);
+void		shapeadd_back(t_shape	**root, t_shape *shape);
 
 int			ft_error(char *str, char *filename);
 void		free_shapes(t_shape *shapes);
@@ -167,8 +177,15 @@ int			rgb_to_int(int r, int g, int b);
 int			convert_color(t_color color);
 
 bool		intersect(t_ray *ray, t_shape *shape, float *t);
+void		ft_swapf(float *nptr1, float *nptr2);
 t_vector	localize_cylinder_pos(t_vector pos);
 t_vector	localize_cylinder_direction(t_vector direction);
+bool		intersect_cylinder(t_ray *ray, t_cylinder *cyl, float *t);
+
+t_vector	calc_nhit_sphere(t_vector *phit, t_sphere *sph, t_vector *ray_dir);
+t_vector	calc_nhit_plane(t_plane *plane, t_vector *ray_dir);
+t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl,
+				t_vector *ray_d);
 
 void		make_camera_ray(t_rt *obj, int x, int y, t_vector *cam_dir);
 void		make_cam_matrix(t_camera *camera);

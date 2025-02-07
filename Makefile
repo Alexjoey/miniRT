@@ -6,7 +6,7 @@
 #    By: amylle <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/30 11:58:06 by amylle            #+#    #+#              #
-#    Updated: 2025/01/24 18:39:12 by bclaeys          ###   ########.fr        #
+#    Updated: 2025/02/07 14:28:18 by bclaeys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,10 @@ SRC	= ./src/main.c ./src/error.c ./src/hooks.c ./src/utils.c \
 	  ./src/vector/vector_utils2.c ./src/parser/parser.c \
 	  ./src/render_functions.c src/interpol_color.c \
 	  ./src/camera_rays/camera_rays.c ./src/render.c \
-	  ./src/intersect/intersect.c src/camera_rays/rotations.c
+	  ./src/intersect/intersect.c src/camera_rays/rotations.c \
+	  ./src/intersect/cylinder_intersect.c ./src/parser/parse_color.c \
+	  ./src/parser/parse_camera_and_light.c ./src/parser/parse_cylinder.c \
+	  ./src/parser/parse_sphere_plane.c
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 CC		= clang
 CFLAGS	= -Wextra -Wall -Werror -g
