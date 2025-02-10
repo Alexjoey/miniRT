@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
+#include "vector/vector.h"
 
 void	ft_put_new_img(t_rt *obj)
 {
@@ -63,7 +64,7 @@ t_vector	calc_nhit_cylinder(t_vector *phit, t_cylinder *cyl, t_vector *ray_d)
 	else
 		normal = normalize_vector(subtract_vector(*phit, add_vector(cyl->base,
 						multiply_vector(cyl->direction, base_to_phit_len))));
-	if (dot_product(normal, *ray_d) >= 1e-6)
+	if (dot_product(normal, *ray_d) >= 0)
 		normal = multiply_vector(normal, -1);
 	return (normal);
 }

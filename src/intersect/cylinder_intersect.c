@@ -102,11 +102,12 @@ bool	intersect_cylinder(t_ray *ray, t_cylinder *cyl, float *t)
 		td_valid = true;
 		*t = td;
 	}
-	if (intersect_circle(ray, cyl, cyl->base, &cap_t) && cap_t < *t)
+	if (intersect_circle(ray, cyl, cyl->base, &cap_t) \
+		&& cap_t < *t && cap_t > 1e-6)
 		*t = cap_t;
 	if (intersect_circle(ray, cyl, add_vector(cyl->base,
 				multiply_vector(cyl->direction, cyl->height)),
-			&cap_t2) && cap_t2 < *t)
+			&cap_t2) && cap_t2 < *t && cap_t2 > 1e-6)
 		*t = cap_t2;
 	return (td_valid == true || cap_t > 0 || cap_t2 > 0);
 }
